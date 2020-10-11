@@ -1,0 +1,16 @@
+<svg width="583" height="232" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+ <g>
+  <title>background</title>
+  <rect fill="#fff" id="canvas_background" height="234" width="585" y="-1" x="-1"/>
+  <g display="none" overflow="visible" y="0" x="0" height="100%" width="100%" id="canvasGrid">
+   <rect fill="url(#gridpattern)" stroke-width="0" y="0" x="0" height="100%" width="100%"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <text stroke="#000" transform="matrix(41.046783447265625,0,0,5.641561985015867,-27841.913457870487,-1665.3740070313213) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_1" y="351.45313" x="682" stroke-width="0" fill="#000000"/>
+  <text stroke="#000" transform="matrix(7.000055420480748,0,0,7.947368621826172,-4431.980909111087,-2455.095467507839) " xml:space="preserve" text-anchor="start" font-family="Georgia, Times, 'Times New Roman', serif" font-size="24" id="svg_2" y="330.96585" x="633.14187" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#000000">Litterae</text>
+  <text stroke="#000" transform="matrix(1.2691094875335693,0,0,1.545454502105713,-174.39556242898107,-231.79259521514177) " xml:space="preserve" text-anchor="start" font-family="Junction, sans-serif" font-size="24" id="svg_3" y="293.56347" x="463.62305" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#000000">Prototype</text>
+ </g>
+</svg>
