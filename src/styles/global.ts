@@ -22,4 +22,8 @@ export default createGlobalStyle`
     margin: 0 auto;
     padding: 4em 2em;
   }
+
+  @media (min-width: 480px){
+    max-width: 400px
+  }
 `;

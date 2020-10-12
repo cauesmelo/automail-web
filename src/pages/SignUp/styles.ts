@@ -5,6 +5,9 @@ export const Container = styled.div`
   height: 100vh;
   display: flex;
   align-items: stretch;
+
+  @media (min-width: 600px) 
+
 `;
 
 export const Content = styled.div`
@@ -16,7 +19,7 @@ export const Content = styled.div`
   margin: 0 auto;
 
   width: 100%;
-  max-width: 700px;
+  max-width: 70em;
 `;
 
 export const AnimationContainer = styled.div`
@@ -27,17 +30,17 @@ export const AnimationContainer = styled.div`
   justify-content: center;
 
   form {
-    margin: 80px 0;
-    width: 340px;
+    margin: 8em 0;
+    width: 34em;
     text-align: center;
     h1 {
-      margin-bottom: 24px;
+      margin-bottom: 2.4em;
     }
 
     a {
       color: #f4ede8;
       display: block;
-      margin-top: 24px;
+      margin-top: 2.4em;
       text-decoration: none;
       transition: color 0.2s;
       &:hover {
@@ -49,14 +52,14 @@ export const AnimationContainer = styled.div`
   > a {
     color: black;
     display: block;
-    margin-top: 24px;
+    margin-top: 2.4em;
     text-decoration: none;
     transition: color 0.2s;
     display: flex;
     align-items: center;
 
     svg {
-      margin-right: 16px;
+      margin-right: 1.6em;
     }
 
     &:hover {
