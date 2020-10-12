@@ -7,7 +7,6 @@ import { Link, useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 import { useToast } from '../../hooks/toast';
-import logoImg from '../../assets/logo.svg';
 import { Container, Content, AnimationContainer } from './styles';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
