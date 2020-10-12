@@ -5,9 +5,6 @@ export const Container = styled.div`
   height: 100vh;
   display: flex;
   align-items: stretch;
-
-  @media (min-width: 600px) 
-
 `;
 
 export const Content = styled.div`
@@ -64,6 +61,21 @@ export const AnimationContainer = styled.div`
 
     &:hover {
       color: ${shade(0.2, 'black')};
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    form {
+      max-width: 25em;
+      margin: 4em 0;
+    }
+
+    > a{
+      margin-top: 1em;
+
+      svg {
+        margin-right: 1em;
+      }
     }
   }
 `;
