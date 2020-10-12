@@ -10,14 +10,18 @@ interface ContainerProps {
 
 export const Container = styled.div<ContainerProps>`
   background: white;
-  border-radius: 10px;
-  border: 2px solid #475161;
-  padding: 16px;
+  border-radius: 1em;
+  border: 0.2em solid #475161;
+  padding: 1.6em;
   width: 100%;
   color: #666360;
   display: flex;
   align-items: center;
   transition: color, border-color 0.2s;
+
+  @media only screen and (max-width: 600px) {
+    padding: 0.8em;
+  }
 
   ${props =>
     props.isErrored &&
@@ -50,17 +54,17 @@ export const Container = styled.div<ContainerProps>`
   }
 
   & + div {
-    margin-top: 8px;
+    margin-top: 0.8em;
   }
 
   svg {
-    margin-right: 16px;
+    margin-right: 1.6em;
   }
 `;
 
 export const Error = styled(Tooltip)`
-  height: 20px;
-  margin-left: 16px;
+  height: 2.0em;
+  margin-left: 1.6em;
   svg {
     margin: 0;
   }
