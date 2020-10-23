@@ -14,13 +14,12 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font: 10px sans-serif;
+    font: 18px sans-serif;
   }
 
   #root {
     max-width: 1024px;
     margin: 0 auto;
-    padding: 4em 2em;
   }
 
   @media (min-width: 480px){
