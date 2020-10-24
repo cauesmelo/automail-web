@@ -1,17 +1,11 @@
-import { sign } from 'crypto';
 import React from 'react';
 import { GoogleLogin } from 'react-google-login';
-import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../hooks/auth';
-import { useToast } from '../../hooks/toast';
 
-import api from '../../services/api';
 import { Container, Content, Header, GoogleLoginContainer } from './styles';
 
 const Home: React.FC = () => {
   const { signIn } = useAuth();
-  const { addToast } = useToast();
-  const history = useHistory();
 
   const clientId =
     '534022452713-j012fsh35ahevd5v1an97pbj4ubclid0.apps.googleusercontent.com';
