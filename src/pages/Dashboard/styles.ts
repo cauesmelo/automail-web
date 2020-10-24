@@ -1,121 +1,49 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
-
-export const Header = styled.header`
-  padding: 32px 0;
-  background: white;
+export const Container = styled.div`
+  border: 1px solid black;
 `;
 
-export const HeaderContent = styled.div`
-  max-width: 1120px;
-  margin: 0 auto;
+export const Header = styled.div`
   display: flex;
-  align-items: center;
-
-  > img {
-    height: 80px;
-  }
-
-  button {
-    margin-left: auto;
-    background: transparent;
-    border: 0;
-  }
-
-  svg {
-    color: black;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-  }
+  justify-content: space-around;
 `;
 
-export const Profile = styled.div`
+export const Logo = styled.div`
   display: flex;
-  align-items: center;
-  margin-left: 80px;
-
-  div {
+  width: 200px;
+  justify-content: center;
+  align-self: center;
+  height: 50px;
+  p {
     display: flex;
-    flex-direction: column;
-    margin-left: 16px;
-    line-height: 24px;
-
-    span {
-      color: black;
-    }
-
-    strong {
-      color: blue;
-    }
-    a {
-      text-decoration: none;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
+    align-self: center;
   }
 `;
 
-export const Content = styled.main`
-  max-width: 1120px;
-  margin: 40px auto;
-`;
-
-export const Listing = styled.div`
-  flex: 1;
-  width: 100%;
-  h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
-  }
-`;
-
-export const List = styled.div`
+export const MenuHeader = styled.div`
   display: flex;
-  align-items: center;
-
-  & + div {
-    margin-top: 16px;
-  }
-
-  button {
-    margin-right: 20px;
-    display: flex;
-    align-items: center;
-    color: black;
-    width: 150px;
-    height: 50px;
-
-    span {
-      width: 100%;
-    }
-  }
-
-  svg {
-    color: black;
-    margin-right: 8px;
-  }
-
-  div {
-    flex: 1;
-    background: lightgrey;
-    display: flex;
-    align-items: center;
-    padding: 16px 24px;
-    border-radius: 10px;
-    margin-right: 24px;
-
-    img {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-    }
-  }
+  flex-direction: column;
+  border: 1px solid black;
 `;
 
-export const CreateList = styled.div`
+export const AccountHeader = styled.div`
   display: flex;
-  margin-bottom: 80px;
+  justify-content: space-around;
+  width: 400px;
+  border: 1px solid red;
 `;
+
+export const LogoutButton = styled.div``;
+
+export const ButtonMenu = styled.div``;
+
+export const EmailsContainer = styled.div``;
+
+export const BumpsContainer = styled.div``;
+
+export const TitleContainer = styled.div``;
+
+export const Content = styled.div``;
+
+export const AccountContainer = styled.div``;
