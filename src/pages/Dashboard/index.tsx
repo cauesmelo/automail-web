@@ -21,13 +21,13 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
-      <Header>
+      <Header id="page-header">
         <Logo>
           <p>LOGO</p>
         </Logo>
         <MenuHeader>
           <AccountHeader>
-            Signed as cauesmelo@gmail.com
+            <p>Signed as email</p>
             <LogoutButton>Logout</LogoutButton>
           </AccountHeader>
           <ButtonMenu>Emails</ButtonMenu>

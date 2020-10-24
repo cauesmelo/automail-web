@@ -5,8 +5,9 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+
 `;
 
 export const Logo = styled.div`
@@ -22,19 +23,27 @@ export const Logo = styled.div`
 `;
 
 export const MenuHeader = styled.div`
-  display: flex;
-  flex-direction: column;
   border: 1px solid black;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr; 
 `;
 
 export const AccountHeader = styled.div`
-  display: flex;
-  justify-content: space-around;
-  width: 400px;
-  border: 1px solid red;
+  grid-column-start: span 3;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 `;
 
-export const LogoutButton = styled.div``;
+export const LogoutButton = styled.div`
+
+`;
+
+export const AccountContainer = styled.div`
+  
+`;
+
+
 
 export const ButtonMenu = styled.div``;
 
@@ -46,4 +55,4 @@ export const TitleContainer = styled.div``;
 
 export const Content = styled.div``;
 
-export const AccountContainer = styled.div``;
+
