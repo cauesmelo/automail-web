@@ -6,8 +6,7 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr; 
-
+  grid-template-columns: 1fr 1fr;
 `;
 
 export const Logo = styled.div`
@@ -26,7 +25,7 @@ export const MenuHeader = styled.div`
   border: 1px solid black;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  justify-self: end ;
+  justify-self: end;
 `;
 
 export const AccountHeader = styled.div`
@@ -42,14 +41,10 @@ export const AccountHeader = styled.div`
 
 export const LogoutButton = styled.div`
   margin: 0 1em;
-  justify-self: end ;
+  justify-self: end;
 `;
 
-export const AccountContainer = styled.div`
-  
-`;
-
-
+export const AccountContainer = styled.div``;
 
 export const ButtonMenu = styled.div``;
 
@@ -60,5 +55,3 @@ export const BumpsContainer = styled.div``;
 export const TitleContainer = styled.div``;
 
 export const Content = styled.div``;
-
-

@@ -42,9 +42,9 @@ const Dashboard: React.FC = () => {
             <TitleContainer>
               <h1>Emails em contato</h1>
               <p>
-                Abaixo você verá uma lista dos seus e-mails que você solicitou um
-                re-contato
-          </p>
+                Abaixo você verá uma lista dos seus e-mails que você solicitou
+                um re-contato
+              </p>
             </TitleContainer>
             <Content />
           </EmailsContainer>
@@ -54,15 +54,15 @@ const Dashboard: React.FC = () => {
             <TitleContainer>
               <h1>Configurações de re-contato</h1>
               <p>
-                Nós já configuramos um re-contato padrão. Mas sinta-se livre para
-                modificar como preferir.
-            <br />
+                Nós já configuramos um re-contato padrão. Mas sinta-se livre
+                para modificar como preferir.
+                <br />
                 Seja responsável com os re-contatos.
-          </p>
+              </p>
             </TitleContainer>
             <Content />
-          </BumpsContainer
-          ></Tab>
+          </BumpsContainer>
+        </Tab>
         <Tab title="Account">
           <AccountContainer>
             <TitleContainer>
@@ -72,9 +72,6 @@ const Dashboard: React.FC = () => {
           </AccountContainer>
         </Tab>
       </Tabs>
-
-
-
     </Container>
   );
 };
