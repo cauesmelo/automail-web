@@ -16,6 +16,10 @@ import {
   AccountContainer,
 } from './styles';
 
+import Tab from '../../components/Tabs/Tab/Tab';
+import Tabs from '../../components/Tabs/Tabs';
+import TabTitle from '../../components/Tabs/Tab/TabTitle/TabTitle';
+
 const Dashboard: React.FC = () => {
   const { user, signOut } = useAuth();
 
@@ -30,9 +34,14 @@ const Dashboard: React.FC = () => {
             <p>Signed as email</p>
             <LogoutButton>Logout</LogoutButton>
           </AccountHeader>
-          <ButtonMenu>Emails</ButtonMenu>
+          {/* <ButtonMenu>Emails</ButtonMenu>
           <ButtonMenu>Bumps</ButtonMenu>
-          <ButtonMenu>Account</ButtonMenu>
+          <ButtonMenu>Account</ButtonMenu> */}
+          <Tabs>
+            <Tab title="Lemon">Lemon is yellow</Tab>
+            <Tab title="Strawberry">Strawberry is red</Tab>
+            <Tab title="Pear">Pear is green</Tab>
+          </Tabs>
         </MenuHeader>
       </Header>
       <EmailsContainer>
