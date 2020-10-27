@@ -1,4 +1,8 @@
-import React, { useCallback } from "react"
+import React, { useCallback } from "react";
+import Button from '../../../Button/index';
+import {
+  ItemList
+} from './styles';
 
 type Props = {
   title: string
@@ -13,9 +17,9 @@ const TabTitle: React.FC<Props> = ({ title, setSelectedTab, index }) => {
   }, [setSelectedTab, index])
 
   return (
-    <li>
-      <button onClick={onClick}>{title}</button>
-    </li>
+    <ItemList>
+      <Button onClick={onClick}>{title}</Button>
+    </ItemList>
   )
 }
 

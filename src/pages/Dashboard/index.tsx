@@ -34,44 +34,47 @@ const Dashboard: React.FC = () => {
             <p>Signed as email</p>
             <LogoutButton>Logout</LogoutButton>
           </AccountHeader>
-          {/* <ButtonMenu>Emails</ButtonMenu>
-          <ButtonMenu>Bumps</ButtonMenu>
-          <ButtonMenu>Account</ButtonMenu> */}
-          <Tabs>
-            <Tab title="Lemon">Lemon is yellow</Tab>
-            <Tab title="Strawberry">Strawberry is red</Tab>
-            <Tab title="Pear">Pear is green</Tab>
-          </Tabs>
         </MenuHeader>
       </Header>
-      <EmailsContainer>
-        <TitleContainer>
-          <h1>Emails em contato</h1>
-          <p>
-            Abaixo você verá uma lista dos seus e-mails que você solicitou um
-            re-contato
+      <Tabs>
+        <Tab title="Emails">
+          <EmailsContainer>
+            <TitleContainer>
+              <h1>Emails em contato</h1>
+              <p>
+                Abaixo você verá uma lista dos seus e-mails que você solicitou um
+                re-contato
           </p>
-        </TitleContainer>
-        <Content />
-      </EmailsContainer>
-      <BumpsContainer>
-        <TitleContainer>
-          <h1>Configurações de re-contato</h1>
-          <p>
-            Nós já configuramos um re-contato padrão. Mas sinta-se livre para
-            modificar como preferir.
+            </TitleContainer>
+            <Content />
+          </EmailsContainer>
+        </Tab>
+        <Tab title="Bumps">
+          <BumpsContainer>
+            <TitleContainer>
+              <h1>Configurações de re-contato</h1>
+              <p>
+                Nós já configuramos um re-contato padrão. Mas sinta-se livre para
+                modificar como preferir.
             <br />
-            Seja responsável com os re-contatos.
+                Seja responsável com os re-contatos.
           </p>
-        </TitleContainer>
-        <Content />
-      </BumpsContainer>
-      <AccountContainer>
-        <TitleContainer>
-          <h1>Configurações de Conta</h1>
-        </TitleContainer>
-        <Content />
-      </AccountContainer>
+            </TitleContainer>
+            <Content />
+          </BumpsContainer
+          ></Tab>
+        <Tab title="Account">
+          <AccountContainer>
+            <TitleContainer>
+              <h1>Configurações de Conta</h1>
+            </TitleContainer>
+            <Content />
+          </AccountContainer>
+        </Tab>
+      </Tabs>
+
+
+
     </Container>
   );
 };
