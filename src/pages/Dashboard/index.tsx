@@ -1,4 +1,6 @@
 import React from 'react';
+import { useGoogleLogout } from 'react-google-login';
+import { sign } from 'crypto';
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -8,7 +10,6 @@ import {
   MenuHeader,
   AccountHeader,
   LogoutButton,
-  ButtonMenu,
   EmailsContainer,
   BumpsContainer,
   TitleContainer,
@@ -18,10 +19,21 @@ import {
 
 import Tab from '../../components/Tabs/Tab/Tab';
 import Tabs from '../../components/Tabs/Tabs';
-import TabTitle from '../../components/Tabs/Tab/TabTitle/TabTitle';
+import Button from '../../components/Button';
 
 const Dashboard: React.FC = () => {
-  const { user, signOut } = useAuth();
+  const { user, clearCache } = useAuth();
+  const clientId =
+    '534022452713-j012fsh35ahevd5v1an97pbj4ubclid0.apps.googleusercontent.com';
+
+  const { signOut } = useGoogleLogout({
+    clientId,
+  });
+
+  function signOutAndClearCache() {
+    signOut();
+    clearCache();
+  }
 
   return (
     <Container>
@@ -31,8 +43,14 @@ const Dashboard: React.FC = () => {
         </Logo>
         <MenuHeader>
           <AccountHeader>
-            <p>Signed as email</p>
-            <LogoutButton>Logout</LogoutButton>
+            <p>
+              Signed as
+              <br />
+              {user.email}
+            </p>
+            <Button onClick={signOutAndClearCache}>
+              <LogoutButton>Logout</LogoutButton>
+            </Button>
           </AccountHeader>
         </MenuHeader>
       </Header>
