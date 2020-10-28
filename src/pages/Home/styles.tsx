@@ -1,44 +1,100 @@
 import styled from 'styled-components';
+import img from '../../assets/austin-distel-VvAcrVa56fc-unsplash.jpg';
+
 
 export const Container = styled.div`
-  height: 100vh;
+
+background-color:  #475161;
+  
 `;
 
 export const Header = styled.div`
-  padding: 30px;
-  height: 13vh;
+  max-width: 70%;
+  margin: auto;
 `;
 
-export const GoogleLoginContainer = styled.div``;
+export const GoogleLoginContainer = styled.div`
+  float: right;
+  padding-top: 0.5em;
+`;
+
+export const Parallax = styled.div`
+  background-image: url(${img});
+  height:100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  &:after{
+    content: '';
+  }
+  div {
+    max-width: 70%;
+    margin: auto;
+    height: 100%;
+    h2 {
+      background-color: rgba(255,255,255,0.6);
+      color: #5A5A5A;
+      padding: 2em;
+      text-align: center;
+      top: 38%;
+      position: relative;
+      border-radius: 1em;
+    }
+  }
+    
+`;
 
 export const Content = styled.div`
-  border: 2px solid black;
-  height: 85vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: linear-gradient(
-    30deg,
-    #000000 5.88%,
-    #ffffff 5.88%,
-    #ffffff 50%,
-    #000000 50%,
-    #000000 55.88%,
-    #ffffff 55.88%,
-    #ffffff 100%
-  );
-  background-size: 34px 19.63px;
+  max-width: 70%;
+  margin: auto;
+  height:100vh;
+`;
 
+export const FixedContent = styled.div`
+padding: 2em;
+text-align: center;
+h1 {
+  margin-bottom: 0.5em;
+  color:white;
+}
+  display:flex; 
+  flex-direction:column; 
+  justify-content:space-between;
+`;
+
+export const CardList = styled.div`
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+`;
+
+export const Card = styled.div`
+  margin: 1em;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: #f1f1f1;
+  border-radius: 0.5em;
   p {
-    display: flex;
-    height: 100px;
-    width: 300px;
-    background-color: white;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 20px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-      'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0.3em 0;
+  }
+  span { 
+    p{
+      color: rgba(0, 0, 0, 0.3);
+    }
+  }
+`;
+
+export const Footer = styled.div`
+  width: 100%;
+  margin: 5em 0 0 0;
+  h2{
+    color: white;
+  }
+  img {
+    height: 5vh;
+    width: 3em;
+    margin: 0 0.5em;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(358deg) brightness(103%) contrast(101%);
   }
 `;
