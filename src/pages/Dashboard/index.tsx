@@ -51,9 +51,7 @@ const Dashboard: React.FC = () => {
         <MenuHeader>
           <AccountHeader>
             <p>
-              Signed as
-              <br />
-              {user.email}
+              Signed as {user.name}
             </p>
             <Button onClick={signOutAndClearCache}>
               <LogoutButton>Logout</LogoutButton>

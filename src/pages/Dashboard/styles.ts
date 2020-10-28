@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  background-color: #8699B8;
+  height: 100vh;
+  padding: 0 1em;
+  color: white;
+`;
 
 export const Header = styled.div`
   display: grid;
@@ -21,23 +26,22 @@ export const Logo = styled.div`
 
 export const MenuHeader = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-self: end;
 `;
 
 export const AccountHeader = styled.div`
-  grid-column-start: span 3;
+  grid-column-start: 3;
+  grid-column-end: span 3;
   display: grid;
   grid-template-columns: 1fr 1fr;
   padding: 1em 0;
   margin: auto;
-  p {
-    margin: 0 40px;
-  }
+  width: 100%;
 `;
 
 export const LogoutButton = styled.div`
-  margin: 0 1em;
+  
   justify-self: end;
 `;
 
