@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGoogleLogout } from 'react-google-login';
+import TimezoneSelect from 'react-timezone-select';
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -18,15 +19,17 @@ import {
   AccountInformationTitle,
   AccountInformationUser,
   AccountInformationType,
+  BumpSettingsContainer,
+  BumpSettingsRow,
 } from './styles';
 
 import Tab from '../../components/Tabs/Tab/Tab';
 import Tabs from '../../components/Tabs/Tabs';
 import Button from '../../components/Button';
-import Input from '../../components/Input';
 
 const Dashboard: React.FC = () => {
   const { user, clearCache } = useAuth();
+  const [selectedTimezone, setSelectedTimezone] = useState({});
   const clientId =
     '534022452713-j012fsh35ahevd5v1an97pbj4ubclid0.apps.googleusercontent.com';
 
@@ -92,7 +95,7 @@ const Dashboard: React.FC = () => {
             </TitleContainer>
             <Content>
               <AccountInformationTitle>
-                Informações de conta
+                <h2>Informações de conta</h2>
               </AccountInformationTitle>
               <AccountInformation>
                 <AccountInformationUser>
@@ -103,13 +106,13 @@ const Dashboard: React.FC = () => {
                       (Será mostrado no campo remetente)
                     </h3>
                     <form>
-                      <input type="text" defaultValue="caue melo" />
+                      <input type="text" defaultValue={user.name} />
                       <Button>Atualizar Nome</Button>
                     </form>
                   </div>
                   <div>
                     <h3>Endereço de e-mail:</h3>
-                    <p>cauesmelodsudsd</p>
+                    <p>{user.email}</p>
                   </div>
                   <div>
                     <h3>Usuário desde:</h3>
@@ -122,6 +125,116 @@ const Dashboard: React.FC = () => {
                   <Button>Comprar plano Premium</Button>
                 </AccountInformationType>
               </AccountInformation>
+              <BumpSettingsContainer>
+                <h2>Bump Settings</h2>
+                <div>
+                  <BumpSettingsRow>
+                    <h4>Hora local:</h4>
+                    <div className="containerTimezone">
+                      <TimezoneSelect
+                        value={selectedTimezone}
+                        onChange={setSelectedTimezone}
+                      />
+                    </div>
+                  </BumpSettingsRow>
+
+                  <BumpSettingsRow>
+                    <h4>Dias de contato:</h4>
+                    <div className="checkContainer">
+                      <div className="checkItem">
+                        <label htmlFor="segunda">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="segunda"
+                            name="segunda"
+                            checked
+                          />
+                          SEG
+                        </label>
+                      </div>
+
+                      <div className="checkItem">
+                        <label htmlFor="terca">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="terca"
+                            name="terca"
+                            checked
+                          />
+                          TER
+                        </label>
+                      </div>
+
+                      <div className="checkItem">
+                        <label htmlFor="quarta">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="quarta"
+                            name="quarta"
+                            checked
+                          />
+                          QUA
+                        </label>
+                      </div>
+
+                      <div className="checkItem">
+                        <label htmlFor="quinta">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="quinta"
+                            name="quinta"
+                            checked
+                          />
+                          QUI
+                        </label>
+                      </div>
+
+                      <div className="checkItem">
+                        <label htmlFor="sexta">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="sexta"
+                            name="sexta"
+                            checked
+                          />
+                          SEX
+                        </label>
+                      </div>
+
+                      <div className="checkItem">
+                        <label htmlFor="sabado">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="sabado"
+                            name="sabado"
+                            checked
+                          />
+                          SAB
+                        </label>
+                      </div>
+
+                      <div className="checkItem">
+                        <label htmlFor="domingo">
+                          {' '}
+                          <input
+                            type="checkbox"
+                            id="domingo"
+                            name="domingo"
+                            checked
+                          />
+                          DOM
+                        </label>
+                      </div>
+                    </div>
+                  </BumpSettingsRow>
+                </div>
+              </BumpSettingsContainer>
             </Content>
           </AccountContainer>
         </Tab>

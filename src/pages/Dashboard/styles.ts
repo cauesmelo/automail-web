@@ -56,6 +56,7 @@ export const Content = styled.div``;
 export const AccountInformation = styled.div`
   padding: 10px;
   display: flex;
+  justify-content: space-between;
 
   h3 {
     font-weight: 800;
@@ -72,9 +73,42 @@ export const AccountInformationTitle = styled.div`
   margin: 20px;
 `;
 export const AccountInformationUser = styled.div`
-  width: 50%;
+  width: 45%;
 `;
 
 export const AccountInformationType = styled.div`
-  width: 50%;
+  width: 45%;
+`;
+
+export const BumpSettingsContainer = styled.div`
+  h2 {
+    font-size: 24px;
+    margin: 20px;
+  }
+`;
+export const BumpSettingsRow = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin: 40px 0px;
+
+  h4 {
+    width: 300px;
+  }
+
+  .containerTimezone {
+    width: 800px;
+  }
+
+  .checkContainer {
+    display: flex;
+    flex: 1;
+    justify-content: space-around;
+  }
+
+  .checkItem {
+    display: flex;
+    input {
+      margin: 0px 10px 0px 0px;
+    }
+  }
 `;

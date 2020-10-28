@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
-import { useGoogleLogout } from 'react-google-login';
 import api from '../services/api';
 
 interface User {
