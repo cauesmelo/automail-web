@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-  border: 1px solid black;
-`;
+export const Container = styled.div``;
 
 export const Header = styled.div`
   display: grid;
@@ -22,7 +20,6 @@ export const Logo = styled.div`
 `;
 
 export const MenuHeader = styled.div`
-  border: 1px solid black;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   justify-self: end;
@@ -35,7 +32,7 @@ export const AccountHeader = styled.div`
   padding: 1em 0;
   margin: auto;
   p {
-    margin: 0 0 0 1em;
+    margin: 0 40px;
   }
 `;
 
@@ -55,3 +52,29 @@ export const BumpsContainer = styled.div``;
 export const TitleContainer = styled.div``;
 
 export const Content = styled.div``;
+
+export const AccountInformation = styled.div`
+  padding: 10px;
+  display: flex;
+
+  h3 {
+    font-weight: 800;
+    font-size: 18px;
+    margin: 20px 0px 5px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+`;
+export const AccountInformationTitle = styled.div`
+  font-size: 24px;
+  margin: 20px;
+`;
+export const AccountInformationUser = styled.div`
+  width: 50%;
+`;
+
+export const AccountInformationType = styled.div`
+  width: 50%;
+`;

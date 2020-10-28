@@ -1,6 +1,5 @@
 import React from 'react';
 import { useGoogleLogout } from 'react-google-login';
-import { sign } from 'crypto';
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -15,11 +14,16 @@ import {
   TitleContainer,
   Content,
   AccountContainer,
+  AccountInformation,
+  AccountInformationTitle,
+  AccountInformationUser,
+  AccountInformationType,
 } from './styles';
 
 import Tab from '../../components/Tabs/Tab/Tab';
 import Tabs from '../../components/Tabs/Tabs';
 import Button from '../../components/Button';
+import Input from '../../components/Input';
 
 const Dashboard: React.FC = () => {
   const { user, clearCache } = useAuth();
@@ -86,7 +90,39 @@ const Dashboard: React.FC = () => {
             <TitleContainer>
               <h1>Configurações de Conta</h1>
             </TitleContainer>
-            <Content />
+            <Content>
+              <AccountInformationTitle>
+                Informações de conta
+              </AccountInformationTitle>
+              <AccountInformation>
+                <AccountInformationUser>
+                  <div>
+                    <h3>
+                      Nome completo:
+                      <br />
+                      (Será mostrado no campo remetente)
+                    </h3>
+                    <form>
+                      <input type="text" defaultValue="caue melo" />
+                      <Button>Atualizar Nome</Button>
+                    </form>
+                  </div>
+                  <div>
+                    <h3>Endereço de e-mail:</h3>
+                    <p>cauesmelodsudsd</p>
+                  </div>
+                  <div>
+                    <h3>Usuário desde:</h3>
+                    <p>10/21/20</p>
+                  </div>
+                </AccountInformationUser>
+                <AccountInformationType>
+                  <h3>Tipo de conta:</h3>
+                  <p>Teste gratuito. 30 dias restantes.</p>
+                  <Button>Comprar plano Premium</Button>
+                </AccountInformationType>
+              </AccountInformation>
+            </Content>
           </AccountContainer>
         </Tab>
       </Tabs>
