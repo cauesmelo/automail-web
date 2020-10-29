@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useGoogleLogout } from 'react-google-login';
-import TimezoneSelect from 'react-timezone-select';
 import { useAuth } from '../../hooks/auth';
 
 import {
