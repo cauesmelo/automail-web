@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useGoogleLogout } from 'react-google-login';
+import { MdEmail, MdSettings, MdPerson } from 'react-icons/md';
 import { useAuth } from '../../hooks/auth';
 
 import {
@@ -9,19 +10,22 @@ import {
   MenuHeader,
   AccountHeader,
   LogoutButton,
-  EmailsContainer,
-  BumpsContainer,
-  TitleContainer,
-  
+  TabsButtonContainer,
+  TabButton,
+  TabsContentContainer,
 } from './styles';
 
-import Tab from '../../components/Tabs/Tab/Tab';
-import Tabs from '../../components/Tabs/Tabs';
 import Button from '../../components/Button';
-import AccountContainer from './AccountContainer/index';
+import Account from '../Account';
+import Bumps from '../Bumps';
+import Emails from '../Emails';
+
+import logo from '../../assets/logo.png';
 
 const Dashboard: React.FC = () => {
   const { user, clearCache } = useAuth();
+  const [tab, setTab] = useState(2);
+
   const clientId =
     '534022452713-j012fsh35ahevd5v1an97pbj4ubclid0.apps.googleusercontent.com';
 
@@ -34,16 +38,38 @@ const Dashboard: React.FC = () => {
     clearCache();
   }
 
+  function handleTabClick(tabChange: number) {
+    setTab(tabChange);
+  }
+
+  const renderTab = useCallback(() => {
+    switch (tab) {
+      case 0:
+        return <Emails />;
+        break;
+      case 1:
+        return <Bumps />;
+        break;
+      case 2:
+        return <Account />;
+        break;
+      default:
+        return null;
+    }
+  }, [tab]);
+
   return (
     <Container>
       <Header id="page-header">
         <Logo>
-          <p>LOGO</p>
+          <img src={logo} alt="automail" />
         </Logo>
         <MenuHeader>
           <AccountHeader>
             <p>
-              Signed as {user.name}
+              Signed as
+              <br />
+              {user.name}
             </p>
             <Button onClick={signOutAndClearCache}>
               <LogoutButton>Logout</LogoutButton>
@@ -51,36 +77,21 @@ const Dashboard: React.FC = () => {
           </AccountHeader>
         </MenuHeader>
       </Header>
-      <Tabs>
-        <Tab title="Emails">
-          <EmailsContainer>
-            <TitleContainer>
-              <h1>Emails em contato</h1>
-              <p>
-                Abaixo você verá uma lista dos seus e-mails que você solicitou
-                um re-contato
-              </p>
-            </TitleContainer>
-          </EmailsContainer>
-        </Tab>
-        <Tab title="Bumps">
-          <BumpsContainer>
-            <TitleContainer>
-              <h1>Configurações de re-contato</h1>
-              <p>
-                Nós já configuramos um re-contato padrão. Mas sinta-se livre
-                para modificar como preferir.
-                <br />
-                Seja responsável com os re-contatos.
-              </p>
-            </TitleContainer>
-            
-          </BumpsContainer>
-        </Tab>
-        <Tab title="Account">
-          <AccountContainer></AccountContainer>
-        </Tab>
-      </Tabs>
+      <TabsButtonContainer>
+        <TabButton selected={tab === 0} onClick={() => handleTabClick(0)}>
+          <MdEmail />
+          <span>Email</span>
+        </TabButton>
+        <TabButton selected={tab === 1} onClick={() => handleTabClick(1)}>
+          <MdSettings />
+          <span>Reenvios</span>
+        </TabButton>
+        <TabButton selected={tab === 2} onClick={() => handleTabClick(2)}>
+          <MdPerson />
+          <span>Conta</span>
+        </TabButton>
+      </TabsButtonContainer>
+      <TabsContentContainer>{renderTab()}</TabsContentContainer>
     </Container>
   );
 };

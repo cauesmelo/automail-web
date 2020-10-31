@@ -1,9 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface TabProps {
+  selected?: boolean;
+}
 
 export const Container = styled.div`
-  background-color: #8699B8;
+  background-color: white;
   height: 100vh;
-  color: white;
+  color: black;
 `;
 
 export const Header = styled.div`
@@ -40,17 +44,49 @@ export const AccountHeader = styled.div`
 `;
 
 export const LogoutButton = styled.div`
-  
   justify-self: end;
 `;
 
+export const TabsButtonContainer = styled.div`
+  margin-top: 50px;
+  display: flex;
+  justify-content: flex-end;
+`;
+export const TabButton = styled.button<TabProps>`
+  display: flex;
+  width: 150px;
+  height: 50px;
+  background-color: rgb(242, 242, 242);
+  border: 1px solid #a9a9a9;
+  font-size: 20px;
+  border-radius: 10px 10px 0 0;
+  color: #a9a9a9;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  font-size: 20px;
+  cursor: pointer;
 
+  &:hover {
+    color: #555;
+  }
+  ${props =>
+    props.selected &&
+    css`
+      background-color: #dd3636;
+      color: white;
+      border: none;
+      &:hover {
+        color: white;
+      }
+    `}
 
-export const ButtonMenu = styled.div``;
+  span {
+    margin-left: 10px;
+    font-weight: 800;
+  }
+`;
 
-export const EmailsContainer = styled.div``;
-
-export const BumpsContainer = styled.div``;
-
-export const TitleContainer = styled.div``;
-
+export const TabsContentContainer = styled.div`
+  border: 1px solid red;
+`;
