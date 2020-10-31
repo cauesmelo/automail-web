@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useGoogleLogout } from 'react-google-login';
 import { MdEmail, MdSettings, MdPerson } from 'react-icons/md';
 import { useAuth } from '../../hooks/auth';
@@ -46,13 +46,10 @@ const Dashboard: React.FC = () => {
     switch (tab) {
       case 0:
         return <Emails />;
-        break;
       case 1:
         return <Bumps />;
-        break;
       case 2:
         return <Account />;
-        break;
       default:
         return null;
     }

@@ -58,6 +58,7 @@ export const TabButton = styled.button<TabProps>`
   height: 50px;
   background-color: rgb(242, 242, 242);
   border: 1px solid #a9a9a9;
+  border-bottom: none;
   font-size: 20px;
   border-radius: 10px 10px 0 0;
   color: #a9a9a9;
@@ -87,6 +88,4 @@ export const TabButton = styled.button<TabProps>`
   }
 `;
 
-export const TabsContentContainer = styled.div`
-  border: 1px solid red;
-`;
+export const TabsContentContainer = styled.div``;
