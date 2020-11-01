@@ -5,13 +5,14 @@ export const Container = styled.div`
 `;
 
 export const TitleContainer = styled.div`
-  height: 150px;
   background-color: rgb(131, 186, 220);
   color: white;
   h1 {
     font-size: 30px;
     text-align: center;
-    line-height: 150px;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    font-weight: 500;
   }
 `;
 

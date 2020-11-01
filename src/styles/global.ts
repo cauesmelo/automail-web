@@ -10,6 +10,7 @@ export default createGlobalStyle`
 
   body {
     background: white;
+
     -webkit-font-smoothing: antialiased;
   }
 
@@ -20,6 +21,7 @@ export default createGlobalStyle`
   #root {
     max-width: 1024px;
     margin: 0 auto;
+    font-family: 'Signika', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
 
   @media (min-width: 480px){
