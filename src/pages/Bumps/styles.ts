@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface ItemProps {
+  isLast?: boolean;
+}
 
 export const Container = styled.div`
   width: 100%;
@@ -131,6 +135,20 @@ export const BumpContent = styled.div`
   border: 1px solid #a0a0a0;
   padding: 30px;
   border-top: none;
+  display: grid;
+
+  .buttonAdd {
+    justify-self: center;
+    width: 50%;
+    font-weight: 500;
+    height: 60px;
+    border-radius: 5px;
+    background-color: #83badc;
+    font-size: 22px;
+    &:hover {
+      background-color: #567c94;
+    }
+  }
 `;
 export const BumpContentHeader = styled.div`
   display: grid;
@@ -151,10 +169,24 @@ export const BumpContentHeader = styled.div`
     padding-left: 30px;
   }
 `;
-export const BumpContentItem = styled.div`
+export const BumpContentItem = styled.div<ItemProps>`
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: repeat(12, 1fr);
+  margin-bottom: 50px;
+
+  ${props =>
+    props.isLast
+      ? css`
+          .deleteButton {
+            display: block;
+          }
+        `
+      : css`
+          .deleteButton {
+            display: none;
+          }
+        `}
 
   .dayBall {
     color: white;
@@ -193,6 +225,12 @@ export const BumpContentItemTitle = styled.div`
   font-weight: 600;
   border-radius: 5px 5px 0 0;
   position: relative;
+  display: flex;
+  justify-content: flex-end;
+
+  h3 {
+    margin-right: auto;
+  }
 
   &:after {
     content: ' ';
@@ -203,6 +241,43 @@ export const BumpContentItemTitle = styled.div`
     border-right: 15px solid #343d39;
     border-left: none;
     border-bottom: 15px solid transparent;
+  }
+
+  .editButton {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #f2f2f2;
+    justify-self: end;
+    border-radius: 5px;
+    color: #a0a0a0;
+    font-weight: 700;
+
+    &:hover {
+      color: #343d39;
+    }
+
+    svg {
+      margin-right: 5px;
+    }
+  }
+
+  .deleteButton {
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    color: #dd3636;
+    font-weight: 700;
+    justify-self: end;
+
+    &:hover {
+      color: white;
+      background-color: #dd3636;
+    }
+
+    svg {
+      margin-right: 5px;
+    }
   }
 `;
 
@@ -219,7 +294,8 @@ export const BumpContentItemSubTitle = styled.div`
 `;
 export const BumpContentItemContent = styled.div`
   padding: 30px;
-  border: 1px solid #a0a0a0;
+  border: 1px solid rgb(237, 237, 237);
+  border-radius: 0px 0px 10px 10px;
   border-top: none;
 
   > p {
@@ -246,11 +322,6 @@ export const BumpContentItemContent = styled.div`
       fill: rgb(146, 146, 146);
       width: 6px;
       padding: 1px;
-    }
-  }
-
-  .spanBalls {
-    p {
     }
   }
 `;
