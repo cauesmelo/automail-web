@@ -43,6 +43,7 @@ export const BumpMenu = styled.div`
   grid-template-rows: auto;
   grid-template-columns: repeat(12, 1fr);
   select {
+    border-radius: 5px;
     grid-column-start: span 5;
     margin: 5px;
     padding: 5px;
