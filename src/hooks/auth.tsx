@@ -13,7 +13,7 @@ interface User {
 interface AuthContextData {
   user: User;
   signIn(idToken: string): Promise<void>;
-  signOut(): void;
+  clearCache(): void;
 }
 
 interface AuthState {
@@ -46,7 +46,7 @@ export const AuthProvider: React.FC = ({ children }) => {
     setData({ idToken, user });
   }, []);
 
-  const signOut = useCallback(() => {
+  const clearCache = useCallback(async () => {
     localStorage.removeItem('@Litterae:idToken');
     localStorage.removeItem('@Litterae:user');
 
@@ -54,7 +54,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, clearCache }}>
       {children}
     </AuthContext.Provider>
   );
