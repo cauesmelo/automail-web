@@ -54,7 +54,8 @@ export const AccountInformationUser = styled.div`
   div {
     padding: 20px;
     width: 100%;
-    form {
+    input {
+      padding: 10px;
     }
   }
 
@@ -88,5 +89,72 @@ export const AccountInformationType = styled.div`
         margin: 50px 0px;
       }
     }
+  }
+`;
+
+export const BumpSettings = styled.div`
+  margin-top: 20px;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr;
+`;
+export const BumpSettingsTitle = styled.div`
+  height: 50px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: rgb(52, 61, 57);
+
+  color: white;
+  grid-column-start: span 2;
+  h2 {
+    line-height: 50px;
+    margin-left: 50px;
+    font-size: 24px;
+    font-weight: 400;
+  }
+`;
+export const BumpSettingsContent = styled.div`
+  background-color: rgb(237, 247, 255);
+  border: 1px solid #e9e9e9;
+  border-top: none;
+  padding: 15px 100px;
+  grid-column-start: span 2;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  padding-top: 30px;
+  button {
+    grid-column-start: span 2;
+    justify-self: center;
+  }
+`;
+
+export const BumpSettingsRow = styled.div`
+  display: grid;
+  grid-column-start: span 2;
+  grid-template-columns: repeat(6, 1fr);
+  width: 100%;
+  margin-bottom: 35px;
+  h4 {
+    grid-column-start: span 1;
+    align-self: center;
+    font-weight: 400;
+  }
+  div {
+    grid-column-start: span 5;
+  }
+
+  .whitebg {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+  }
+
+  #copy {
+    margin-right: 20px;
+  }
+
+  .copyLabel {
+    font-size: 16px;
   }
 `;

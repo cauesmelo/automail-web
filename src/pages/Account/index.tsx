@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import TimezoneSelect from 'react-timezone-select';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -8,13 +9,20 @@ import {
   Container,
   Content,
   TitleContainer,
+  BumpSettings,
+  BumpSettingsTitle,
+  BumpSettingsContent,
+  BumpSettingsRow,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
 
 import Button from '../../components/Button';
+import DaysPicker from '../../components/DaysPicker';
+import HourPicker from '../../components/HourPicker';
 
 const AccountContainer: React.FC = () => {
   const { user } = useAuth();
+  const [selectedTimezone, setSelectedTimezone] = useState({});
 
   return (
     <Container>
@@ -62,6 +70,44 @@ const AccountContainer: React.FC = () => {
             </AccountInformationType>
           </AccountInformationContent>
         </AccountInformation>
+        <BumpSettings>
+          <BumpSettingsTitle>
+            <h2>Configurações de reenvio</h2>
+          </BumpSettingsTitle>
+          <BumpSettingsContent>
+            <BumpSettingsRow>
+              <h4>Hora local:</h4>
+              <div>
+                <TimezoneSelect
+                  value={selectedTimezone}
+                  onChange={setSelectedTimezone}
+                />
+              </div>
+            </BumpSettingsRow>
+            <BumpSettingsRow>
+              <h4>Dias de envio:</h4>
+              <div className="whitebg">
+                <DaysPicker />
+              </div>
+            </BumpSettingsRow>
+            <BumpSettingsRow>
+              <h4>Horário de envio:</h4>
+              <div className="whitebg">
+                <HourPicker />
+              </div>
+            </BumpSettingsRow>
+            <BumpSettingsRow>
+              <h4>Enviar copia:</h4>
+              <div className="whitebg">
+                <label className="copyLabel" htmlFor="copy">
+                  <input type="checkbox" id="copy" name="copy" checked />
+                  Não enviar copias para minha caixa de entrada.
+                </label>
+              </div>
+            </BumpSettingsRow>
+            <Button>Salvar Mudanças</Button>
+          </BumpSettingsContent>
+        </BumpSettings>
       </Content>
     </Container>
   );

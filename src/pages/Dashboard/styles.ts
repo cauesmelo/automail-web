@@ -84,7 +84,7 @@ export const TabButton = styled.button<TabProps>`
 
   span {
     margin-left: 10px;
-    font-weight: 800;
+    font-weight: 500;
   }
 `;
 
