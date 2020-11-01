@@ -12,6 +12,6 @@ export const Container = styled.button`
   cursor: pointer;
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${shade(0.2, 'black')};
+    background-color: ${shade(0.2, 'grey')};
   }
 `;
