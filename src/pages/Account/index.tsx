@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SelectHTMLAttributes, useEffect, useState } from 'react';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -18,6 +18,7 @@ import { useAuth } from '../../hooks/auth';
 import Button from '../../components/Button';
 import DaysPicker from '../../components/DaysPicker';
 import HourPicker from '../../components/HourPicker';
+import TimezoneSelect from '../../components/TimezoneSelect';
 import api from '../../services/api';
 
 interface userData {
@@ -38,6 +39,7 @@ interface userData {
 const AccountContainer: React.FC = () => {
   const { user } = useAuth();
   const [data, setData] = useState<userData>();
+  const [selectedTimezone, setSelectedTimezone] = useState<string>();
 
   const loadData = useEffect(() => {
     api
@@ -49,7 +51,7 @@ const AccountContainer: React.FC = () => {
       .then(response => {
         setData(response.data);
       });
-  }, []);
+  });
 
   function showData() {
     console.log(data);
@@ -59,6 +61,16 @@ const AccountContainer: React.FC = () => {
     if (data) {
       const newData = data;
       newData.bumpSettings.bumpCopy = !data.bumpSettings.bumpCopy;
+      setData(newData);
+    }
+  };
+
+  const handleTimezoneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTimezone(e.target.value);
+    if (data) {
+      const newData = data;
+      newData.bumpSettings.timezone = selectedTimezone || '-3.0';
+      console.log(data.bumpSettings.timezone);
       setData(newData);
     }
   };
@@ -114,7 +126,10 @@ const AccountContainer: React.FC = () => {
           <BumpSettingsContent>
             <BumpSettingsRow>
               <h4>Hora local:</h4>
-              <div>select</div>
+              <TimezoneSelect
+                selected={selectedTimezone}
+                onChange={handleTimezoneChange}
+              />
             </BumpSettingsRow>
             <BumpSettingsRow>
               <h4>Dias de envio:</h4>
