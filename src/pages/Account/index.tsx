@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import TimezoneSelect from 'react-timezone-select';
+import React, { useEffect, useState } from 'react';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -19,10 +18,50 @@ import { useAuth } from '../../hooks/auth';
 import Button from '../../components/Button';
 import DaysPicker from '../../components/DaysPicker';
 import HourPicker from '../../components/HourPicker';
+import api from '../../services/api';
+
+interface userData {
+  name: string;
+  email: string;
+  createdAt: Date;
+  formattedCreatedAt: string;
+  userType: string;
+  bumpSettings: {
+    timezone: string;
+    bumpDays: string[];
+    bumpTimeStart: string;
+    bumpTimeEnd: string;
+    bumpCopy: boolean;
+  };
+}
 
 const AccountContainer: React.FC = () => {
   const { user } = useAuth();
-  const [selectedTimezone, setSelectedTimezone] = useState({});
+  const [data, setData] = useState<userData>();
+
+  const loadData = useEffect(() => {
+    api
+      .get(`/account/`, {
+        params: {
+          userEmail: user.email,
+        },
+      })
+      .then(response => {
+        setData(response.data);
+      });
+  }, []);
+
+  function showData() {
+    console.log(data);
+  }
+
+  const handleCopy = () => {
+    if (data) {
+      const newData = data;
+      newData.bumpSettings.bumpCopy = !data.bumpSettings.bumpCopy;
+      setData(newData);
+    }
+  };
 
   return (
     <Container>
@@ -40,7 +79,7 @@ const AccountContainer: React.FC = () => {
                 <form action="">
                   <h4>Nome Completo:</h4>
                   <input
-                    defaultValue={user.name}
+                    defaultValue={data?.name}
                     type="text"
                     name="name"
                     placeholder=""
@@ -49,14 +88,12 @@ const AccountContainer: React.FC = () => {
                 </form>
               </div>
               <div>
-                <p>
-                  <h4>E-mail:</h4>
-                  {user.email}
-                </p>
+                <h4>E-mail:</h4>
+                <p>{data?.email}</p>
               </div>
               <div>
                 <h4>Usuário desde:</h4>
-                <p>20/10/2020</p>
+                <p>{data?.createdAt}</p>
               </div>
             </AccountInformationUser>
             <AccountInformationType>
@@ -77,12 +114,7 @@ const AccountContainer: React.FC = () => {
           <BumpSettingsContent>
             <BumpSettingsRow>
               <h4>Hora local:</h4>
-              <div>
-                <TimezoneSelect
-                  value={selectedTimezone}
-                  onChange={setSelectedTimezone}
-                />
-              </div>
+              <div>select</div>
             </BumpSettingsRow>
             <BumpSettingsRow>
               <h4>Dias de envio:</h4>
@@ -100,12 +132,18 @@ const AccountContainer: React.FC = () => {
               <h4>Enviar copia:</h4>
               <div className="whitebg">
                 <label className="copyLabel" htmlFor="copy">
-                  <input type="checkbox" id="copy" name="copy" checked />
+                  <input
+                    type="checkbox"
+                    id="copy"
+                    name="copy"
+                    defaultChecked={data?.bumpSettings.bumpCopy}
+                    onChange={handleCopy}
+                  />
                   Não enviar copias para minha caixa de entrada.
                 </label>
               </div>
             </BumpSettingsRow>
-            <Button>Salvar Mudanças</Button>
+            <Button onClick={showData}>Salvar Mudanças</Button>
           </BumpSettingsContent>
         </BumpSettings>
       </Content>

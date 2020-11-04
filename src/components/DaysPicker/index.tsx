@@ -9,7 +9,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="segunda">
             {' '}
-            <input type="checkbox" id="segunda" name="segunda" checked />
+            <input type="checkbox" id="segunda" name="segunda" defaultChecked />
             SEG
           </label>
         </div>
@@ -17,7 +17,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="terca">
             {' '}
-            <input type="checkbox" id="terca" name="terca" checked />
+            <input type="checkbox" id="terca" name="terca" defaultChecked />
             TER
           </label>
         </div>
@@ -25,7 +25,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="quarta">
             {' '}
-            <input type="checkbox" id="quarta" name="quarta" checked />
+            <input type="checkbox" id="quarta" name="quarta" defaultChecked />
             QUA
           </label>
         </div>
@@ -33,7 +33,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="quinta">
             {' '}
-            <input type="checkbox" id="quinta" name="quinta" checked />
+            <input type="checkbox" id="quinta" name="quinta" defaultChecked />
             QUI
           </label>
         </div>
@@ -41,7 +41,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="sexta">
             {' '}
-            <input type="checkbox" id="sexta" name="sexta" checked />
+            <input type="checkbox" id="sexta" name="sexta" defaultChecked />
             SEX
           </label>
         </div>
@@ -49,7 +49,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="sabado">
             {' '}
-            <input type="checkbox" id="sabado" name="sabado" checked />
+            <input type="checkbox" id="sabado" name="sabado" defaultChecked />
             SAB
           </label>
         </div>
@@ -57,7 +57,7 @@ const DaysPicker: React.FC = () => {
         <div className="checkItem">
           <label htmlFor="domingo">
             {' '}
-            <input type="checkbox" id="domingo" name="domingo" checked />
+            <input type="checkbox" id="domingo" name="domingo" defaultChecked />
             DOM
           </label>
         </div>

@@ -102,79 +102,83 @@ const Emails: React.FC = () => {
         <TableContainer>
           {tab === 0 ? (
             <table>
-              <tr>
-                <th>Data</th>
-                <th>Destinatário</th>
-                <th>Assunto</th>
-                <th>Último envio</th>
-                <th>Próximo envio</th>
-                <th>
-                  <FaEye />
-                </th>
-                <th>Envios</th>
-                <th>Cancelar</th>
-              </tr>
-              <tr>
-                <td>01/11/20</td>
-                <td>cauesmelo@gmail.com</td>
-                <td>Assunto Teste</td>
-                <td>10/29 12:15 AM</td>
-                <td>11/05 12:12 AM</td>
-                <td>
-                  <FaEye />
-                </td>
-                <td>
-                  <DaysBall />
-                </td>
-                <td>
-                  <u>Cancelar</u>
-                </td>
-              </tr>
-              <tr>
-                <td>01/11/20</td>
-                <td>cauesmelo@gmail.com</td>
-                <td>Assunto Teste</td>
-                <td>10/29 12:15 AM</td>
-                <td>11/05 12:12 AM</td>
-                <td>
-                  <FaEye />
-                </td>
-                <td>
-                  <DaysBall />
-                </td>
-                <td>
-                  <u>Cancelar</u>
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>Data</th>
+                  <th>Destinatário</th>
+                  <th>Assunto</th>
+                  <th>Último envio</th>
+                  <th>Próximo envio</th>
+                  <th>
+                    <FaEye />
+                  </th>
+                  <th>Envios</th>
+                  <th>Cancelar</th>
+                </tr>
+                <tr>
+                  <td>01/11/20</td>
+                  <td>cauesmelo@gmail.com</td>
+                  <td>Assunto Teste</td>
+                  <td>10/29 12:15 AM</td>
+                  <td>11/05 12:12 AM</td>
+                  <td>
+                    <FaEye />
+                  </td>
+                  <td>
+                    <DaysBall />
+                  </td>
+                  <td>
+                    <u>Cancelar</u>
+                  </td>
+                </tr>
+                <tr>
+                  <td>01/11/20</td>
+                  <td>cauesmelo@gmail.com</td>
+                  <td>Assunto Teste</td>
+                  <td>10/29 12:15 AM</td>
+                  <td>11/05 12:12 AM</td>
+                  <td>
+                    <FaEye />
+                  </td>
+                  <td>
+                    <DaysBall />
+                  </td>
+                  <td>
+                    <u>Cancelar</u>
+                  </td>
+                </tr>
+              </tbody>
             </table>
           ) : (
             <table>
-              <tr>
-                <th>Data</th>
-                <th>Destinatário</th>
-                <th>Assunto</th>
-                <th>Último envio</th>
-                <th>Próximo envio</th>
-                <th>
-                  <FaEye />
-                </th>
-                <th>Envios</th>
-                <th>Resposta</th>
-              </tr>
-              <tr>
-                <td>02/11/20</td>
-                <td>muuufolk@gmail.com</td>
-                <td>Assunto Teste</td>
-                <td>11/29 12:15 AM</td>
-                <td>12/05 12:12 AM</td>
-                <td>
-                  <FaEye />
-                </td>
-                <td>
-                  <DaysBall />
-                </td>
-                <td>Não</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th>Data</th>
+                  <th>Destinatário</th>
+                  <th>Assunto</th>
+                  <th>Último envio</th>
+                  <th>Próximo envio</th>
+                  <th>
+                    <FaEye />
+                  </th>
+                  <th>Envios</th>
+                  <th>Resposta</th>
+                </tr>
+                <tr>
+                  <td>02/11/20</td>
+                  <td>muuufolk@gmail.com</td>
+                  <td>Assunto Teste</td>
+                  <td>11/29 12:15 AM</td>
+                  <td>12/05 12:12 AM</td>
+                  <td>
+                    <FaEye />
+                  </td>
+                  <td>
+                    <DaysBall />
+                  </td>
+                  <td>Não</td>
+                </tr>
+              </tbody>
             </table>
           )}
         </TableContainer>

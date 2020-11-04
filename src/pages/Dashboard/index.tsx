@@ -24,7 +24,7 @@ import logo from '../../assets/logo.png';
 
 const Dashboard: React.FC = () => {
   const { user, clearCache } = useAuth();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(2);
 
   const clientId =
     '534022452713-j012fsh35ahevd5v1an97pbj4ubclid0.apps.googleusercontent.com';
