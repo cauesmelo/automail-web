@@ -1,4 +1,4 @@
-import React, { SelectHTMLAttributes, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -14,7 +14,6 @@ import {
   BumpSettingsRow,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
-
 import Button from '../../components/Button';
 import DaysPicker from '../../components/DaysPicker';
 import HourPicker from '../../components/HourPicker';
@@ -41,20 +40,21 @@ const AccountContainer: React.FC = () => {
   const [data, setData] = useState<userData>();
   const [selectedTimezone, setSelectedTimezone] = useState<string>();
 
-  const loadData = useEffect(() => {
-    api
-      .get(`/account/`, {
+  useEffect(() => {
+    async function loadData() {
+      const response = await api.get(`/account/`, {
         params: {
           userEmail: user.email,
         },
-      })
-      .then(response => {
-        setData(response.data);
       });
-  });
+      console.log('buscando dados');
+      setData(response.data);
+    }
+    loadData();
+  }, [user.email]);
 
   function showData() {
-    console.log(data);
+    console.log(data?.bumpSettings.timezone);
   }
 
   const handleCopy = () => {
@@ -67,12 +67,9 @@ const AccountContainer: React.FC = () => {
 
   const handleTimezoneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedTimezone(e.target.value);
-    if (data) {
-      const newData = data;
-      newData.bumpSettings.timezone = selectedTimezone || '-3.0';
-      console.log(data.bumpSettings.timezone);
-      setData(newData);
-    }
+    const newData = data as userData;
+    newData.bumpSettings.timezone = selectedTimezone || '-3.0';
+    setData(newData);
   };
 
   return (
