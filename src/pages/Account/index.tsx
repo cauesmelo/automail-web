@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -18,6 +20,7 @@ import Button from '../../components/Button';
 import DaysPicker from '../../components/DaysPicker';
 import HourPicker from '../../components/HourPicker';
 import TimezoneSelect from '../../components/TimezoneSelect';
+import CheckBox from '../../components/checkBox';
 import api from '../../services/api';
 
 interface userData {
@@ -35,10 +38,18 @@ interface userData {
   };
 }
 
+interface formData {
+  value: string;
+}
+
 const AccountContainer: React.FC = () => {
   const { user } = useAuth();
   const [data, setData] = useState<userData>();
-  const [selectedTimezone, setSelectedTimezone] = useState<string>();
+  const formRef = useRef<FormHandles>(null);
+
+  const handleSubmit = useCallback((dataTimezone: formData) => {
+    console.log(dataTimezone);
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -56,21 +67,6 @@ const AccountContainer: React.FC = () => {
   function showData() {
     console.log(data?.bumpSettings.timezone);
   }
-
-  const handleCopy = () => {
-    if (data) {
-      const newData = data;
-      newData.bumpSettings.bumpCopy = !data.bumpSettings.bumpCopy;
-      setData(newData);
-    }
-  };
-
-  const handleTimezoneChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTimezone(e.target.value);
-    const newData = data as userData;
-    newData.bumpSettings.timezone = selectedTimezone || '-3.0';
-    setData(newData);
-  };
 
   return (
     <Container>
@@ -117,46 +113,46 @@ const AccountContainer: React.FC = () => {
           </AccountInformationContent>
         </AccountInformation>
         <BumpSettings>
-          <BumpSettingsTitle>
-            <h2>Configurações de reenvio</h2>
-          </BumpSettingsTitle>
-          <BumpSettingsContent>
-            <BumpSettingsRow>
-              <h4>Hora local:</h4>
-              <TimezoneSelect
-                selected={selectedTimezone}
-                onChange={handleTimezoneChange}
-              />
-            </BumpSettingsRow>
-            <BumpSettingsRow>
-              <h4>Dias de envio:</h4>
-              <div className="whitebg">
-                <DaysPicker />
-              </div>
-            </BumpSettingsRow>
-            <BumpSettingsRow>
-              <h4>Horário de envio:</h4>
-              <div className="whitebg">
-                <HourPicker />
-              </div>
-            </BumpSettingsRow>
-            <BumpSettingsRow>
-              <h4>Enviar copia:</h4>
-              <div className="whitebg">
-                <label className="copyLabel" htmlFor="copy">
-                  <input
-                    type="checkbox"
-                    id="copy"
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <BumpSettingsTitle>
+              <h2>Configurações de reenvio</h2>
+            </BumpSettingsTitle>
+            <BumpSettingsContent>
+              <BumpSettingsRow>
+                <h4>Hora local:</h4>
+                <TimezoneSelect name="timezone" />
+              </BumpSettingsRow>
+              <BumpSettingsRow>
+                <h4>Dias de envio:</h4>
+                <div className="whitebg">
+                  <DaysPicker name="days" />
+                </div>
+              </BumpSettingsRow>
+              <BumpSettingsRow>
+                <h4>Horário de envio:</h4>
+                <div className="whitebg">
+                  <div className="hourPickerContainer">
+                    <p>entre</p>
+                    <HourPicker name="startHour" />
+                    <p>e</p>
+                    <HourPicker name="endHour" />
+                  </div>
+                </div>
+              </BumpSettingsRow>
+              <BumpSettingsRow>
+                <h4>Enviar copia:</h4>
+                <div className="whitebg">
+                  <CheckBox
                     name="copy"
                     defaultChecked={data?.bumpSettings.bumpCopy}
-                    onChange={handleCopy}
                   />
-                  Não enviar copias para minha caixa de entrada.
-                </label>
-              </div>
-            </BumpSettingsRow>
-            <Button onClick={showData}>Salvar Mudanças</Button>
-          </BumpSettingsContent>
+                </div>
+              </BumpSettingsRow>
+              <Button type="submit" onClick={showData}>
+                Salvar Mudanças
+              </Button>
+            </BumpSettingsContent>
+          </Form>
         </BumpSettings>
       </Content>
     </Container>

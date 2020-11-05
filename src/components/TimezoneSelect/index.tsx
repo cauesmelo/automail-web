@@ -1,20 +1,31 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
 type TimezoneProps = {
-  selected?: string;
-  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  name: string;
 };
 
-const TimezoneSelect: React.FC<TimezoneProps> = ({ selected, onChange }) => {
+const TimezoneSelect: React.FC<TimezoneProps> = ({ name, ...rest }) => {
+  const inputRef = useRef(null);
+  const { fieldName, defaultValue, registerField } = useField(name);
+  useEffect(() => {
+    registerField({
+      name: fieldName,
+      ref: inputRef.current,
+      path: 'value',
+    });
+  }, [fieldName, registerField]);
+
   return (
     <Container>
       <select
         name="DropDownTimezone"
         id="DropDownTimezone"
-        value={selected}
-        onChange={onChange}
+        ref={inputRef}
+        defaultValue={defaultValue}
+        {...rest}
       >
         <option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>
         <option value="-11.0">(GMT -11:00) Midway Island, Samoa</option>

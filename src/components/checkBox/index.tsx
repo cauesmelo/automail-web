@@ -2,28 +2,26 @@ import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
 import { useField } from '@unform/core';
 import { Container } from './styles';
 
-interface DaysPickerProps extends InputHTMLAttributes<HTMLInputElement> {
+interface CheckBoxProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
 interface CheckboxOption {
   id: string;
-  value: string;
+  value: boolean;
   label: string;
 }
 
-const DaysPicker: React.FC<DaysPickerProps> = ({ name, ...rest }) => {
+const CheckBox: React.FC<CheckBoxProps> = ({ name, ...rest }) => {
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const { fieldName, registerField, defaultValue = [] } = useField(name);
 
   const options: CheckboxOption[] = [
-    { id: 'monday', value: 'monday', label: 'SEG' },
-    { id: 'tuesday', value: 'tuesday', label: 'TER' },
-    { id: 'wednesday', value: 'wednesday', label: 'QUA' },
-    { id: 'thursday', value: 'thursday', label: 'QUI' },
-    { id: 'friday', value: 'friday', label: 'SEX' },
-    { id: 'saturday', value: 'saturday', label: 'SAB' },
-    { id: 'sunday', value: 'sunday', label: 'DOM' },
+    {
+      id: 'copy',
+      value: false,
+      label: 'Enviar cópia para minha caixa de entrada',
+    },
   ];
 
   useEffect(() => {
@@ -52,11 +50,11 @@ const DaysPicker: React.FC<DaysPickerProps> = ({ name, ...rest }) => {
       {options.map((option, index) => (
         <label htmlFor={option.id} key={option.id}>
           <input
-            defaultChecked={defaultValue.find((dv: string) => dv === option.id)}
+            defaultChecked={defaultValue.find((dv: string) => option.value)}
             ref={ref => {
               inputRefs.current[index] = ref as HTMLInputElement;
             }}
-            value={option.value}
+            value={option.id}
             type="checkbox"
             id={option.id}
             {...rest}
@@ -68,4 +66,4 @@ const DaysPicker: React.FC<DaysPickerProps> = ({ name, ...rest }) => {
   );
 };
 
-export default DaysPicker;
+export default CheckBox;
