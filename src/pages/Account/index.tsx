@@ -16,6 +16,7 @@ import {
   BumpSettingsRow,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 import Button from '../../components/Button';
 import DaysPicker from '../../components/DaysPicker';
 import HourPicker from '../../components/HourPicker';
@@ -38,35 +39,64 @@ interface userData {
   };
 }
 
-interface formData {
-  value: string;
+interface FormData {
+  timezone: string;
+  days: string[];
+  startHour: string;
+  endHour: string;
 }
 
 const AccountContainer: React.FC = () => {
   const { user } = useAuth();
+  const { addToast } = useToast();
   const [data, setData] = useState<userData>();
   const formRef = useRef<FormHandles>(null);
-
-  const handleSubmit = useCallback((dataTimezone: formData) => {
-    console.log(dataTimezone);
-  }, []);
+  const [error, setError] = useState({});
 
   useEffect(() => {
-    async function loadData() {
-      const response = await api.get(`/account/`, {
-        params: {
-          userEmail: user.email,
-        },
-      });
-      console.log('buscando dados');
-      setData(response.data);
-    }
-    loadData();
+    let ignore = false;
+    const getData = async () => {
+      try {
+        const response = await api.get(`/account/`, {
+          params: {
+            userEmail: user.email,
+          },
+        });
+
+        // Hack to prevent memory leak
+        if (!ignore) setData(response.data);
+      } catch (err) {
+        setError(err);
+      }
+    };
+    getData();
+    return () => {
+      ignore = true;
+    };
   }, [user.email]);
 
-  function showData() {
-    console.log(data?.bumpSettings.timezone);
-  }
+  const handleSubmit = useCallback(
+    (dataForm: FormData) => {
+      if (dataForm.startHour === dataForm.endHour) {
+        addToast({
+          type: 'error',
+          title: 'Não foi possível salvar as configurações.',
+          description:
+            'O horário de envio não pode começar e terminar no mesmo horário.',
+        });
+      }
+
+      if (dataForm.startHour > dataForm.endHour) {
+        addToast({
+          type: 'error',
+          title: 'Não foi possível salvar as configurações.',
+          description:
+            'O horário de início do envio não pode ser menor que o horário final de envio',
+        });
+      }
+    },
+    [addToast],
+  );
 
   return (
     <Container>
@@ -148,9 +178,7 @@ const AccountContainer: React.FC = () => {
                   />
                 </div>
               </BumpSettingsRow>
-              <Button type="submit" onClick={showData}>
-                Salvar Mudanças
-              </Button>
+              <Button type="submit">Salvar Mudanças</Button>
             </BumpSettingsContent>
           </Form>
         </BumpSettings>
