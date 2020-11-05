@@ -98,6 +98,9 @@ export const BumpSettings = styled.div`
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: 1fr 1fr;
+  form {
+    grid-column-start: span 2;
+  }
 `;
 export const BumpSettingsTitle = styled.div`
   height: 50px;
@@ -149,6 +152,13 @@ export const BumpSettingsRow = styled.div`
     background-color: white;
     border-radius: 10px;
     padding: 20px;
+    .hourPickerContainer {
+      display: flex;
+      justify-content: space-around;
+      p {
+        line-height: 30px;
+      }
+    }
   }
 
   #copy {
