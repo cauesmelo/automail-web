@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { useHistory } from 'react-router-dom';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -47,11 +48,11 @@ interface FormData {
 }
 
 const AccountContainer: React.FC = () => {
-  const { user } = useAuth();
+  const { user, clearCache } = useAuth();
   const { addToast } = useToast();
   const [data, setData] = useState<userData>();
   const formRef = useRef<FormHandles>(null);
-  const [error, setError] = useState({});
+  const history = useHistory();
 
   useEffect(() => {
     let ignore = false;
@@ -66,17 +67,24 @@ const AccountContainer: React.FC = () => {
         // Hack to prevent memory leak
         if (!ignore) setData(response.data);
       } catch (err) {
-        setError(err);
+        addToast({
+          type: 'error',
+          title: 'Não foi possível carregar as configurações.',
+          description:
+            'Ocorreu um erro ao carregar configurações. Tente novamente.',
+        });
+        clearCache();
+        history.push('/');
       }
     };
     getData();
     return () => {
       ignore = true;
     };
-  }, [user.email]);
+  }, [user.email, addToast, clearCache, history]);
 
   const handleSubmit = useCallback(
-    (dataForm: FormData) => {
+    async (dataForm: FormData) => {
       if (dataForm.startHour === dataForm.endHour) {
         addToast({
           type: 'error',
@@ -84,18 +92,34 @@ const AccountContainer: React.FC = () => {
           description:
             'O horário de envio não pode começar e terminar no mesmo horário.',
         });
-      }
-
-      if (dataForm.startHour > dataForm.endHour) {
+      } else if (Number(dataForm.startHour) > Number(dataForm.endHour)) {
         addToast({
           type: 'error',
           title: 'Não foi possível salvar as configurações.',
           description:
-            'O horário de início do envio não pode ser menor que o horário final de envio',
+            'O horário de início do envio não pode ser maior que o horário final de envio',
         });
+      } else {
+        try {
+          const userEmail = user.email;
+          const response = await api.put('/account/', {
+            userEmail,
+            dataForm,
+          });
+          setData(response.data);
+        } catch (err) {
+          addToast({
+            type: 'error',
+            title: 'Não foi possível salvar as configurações.',
+            description:
+              'Ocorreu um erro ao salvar configurações. Tente novamente.',
+          });
+          clearCache();
+          history.push('/');
+        }
       }
     },
-    [addToast],
+    [addToast, clearCache, history, user.email],
   );
 
   return (
@@ -119,7 +143,13 @@ const AccountContainer: React.FC = () => {
                     name="name"
                     placeholder=""
                   />
-                  <Button>Atualizar Nome</Button>
+                  <Button
+                    onClick={() => {
+                      console.log(data?.bumpSettings.bumpDays);
+                    }}
+                  >
+                    Atualizar Nome
+                  </Button>
                 </form>
               </div>
               <div>
@@ -150,12 +180,18 @@ const AccountContainer: React.FC = () => {
             <BumpSettingsContent>
               <BumpSettingsRow>
                 <h4>Hora local:</h4>
-                <TimezoneSelect name="timezone" />
+                <TimezoneSelect
+                  defaultValue={data?.bumpSettings.timezone || ''}
+                  name="timezone"
+                />
               </BumpSettingsRow>
               <BumpSettingsRow>
                 <h4>Dias de envio:</h4>
                 <div className="whitebg">
-                  <DaysPicker name="days" />
+                  <DaysPicker
+                    defaultValue={data?.bumpSettings.bumpDays || []}
+                    name="days"
+                  />
                 </div>
               </BumpSettingsRow>
               <BumpSettingsRow>
@@ -163,9 +199,15 @@ const AccountContainer: React.FC = () => {
                 <div className="whitebg">
                   <div className="hourPickerContainer">
                     <p>entre</p>
-                    <HourPicker name="startHour" />
+                    <HourPicker
+                      defaultValue={data?.bumpSettings.bumpTimeStart || ''}
+                      name="startHour"
+                    />
                     <p>e</p>
-                    <HourPicker name="endHour" />
+                    <HourPicker
+                      defaultValue={data?.bumpSettings.bumpTimeEnd || ''}
+                      name="endHour"
+                    />
                   </div>
                 </div>
               </BumpSettingsRow>
