@@ -107,6 +107,10 @@ const AccountContainer: React.FC = () => {
             dataForm,
           });
           setData(response.data);
+          addToast({
+            type: 'success',
+            title: 'Configurações Salvas.',
+          });
         } catch (err) {
           addToast({
             type: 'error',

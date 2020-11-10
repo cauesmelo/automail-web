@@ -21,13 +21,6 @@ const DaysPicker: React.FC<DaysPickerProps> = ({
   const inputRefs = useRef<HTMLInputElement[]>([]);
   const { fieldName, registerField } = useField(name);
   const [days, setDays] = useState<string[]>([]);
-  // const [monday, setMonday] = useState<boolean>(false);
-  // const [tuesday, setTuesday] = useState<boolean>(false);
-  // const [wednesday, setWednesday] = useState<boolean>(false);
-  // const [thursday, setThursday] = useState<boolean>(false);
-  // const [friday, setFriday] = useState<boolean>(false);
-  // const [saturday, setSaturday] = useState<boolean>(false);
-  // const [sunday, setSunday] = useState<boolean>(false);
 
   const options: CheckboxOption[] = [
     { id: 'monday', value: 'monday', label: 'SEG' },
@@ -38,10 +31,6 @@ const DaysPicker: React.FC<DaysPickerProps> = ({
     { id: 'saturday', value: 'saturday', label: 'SAB' },
     { id: 'sunday', value: 'sunday', label: 'DOM' },
   ];
-
-  // const setDays = (days: string[]) => {
-  //   setMonday(days.some(e => e === 'monday'));
-  // };
 
   useEffect(() => {
     registerField({
@@ -66,13 +55,16 @@ const DaysPicker: React.FC<DaysPickerProps> = ({
     setDays(defaultValue);
   }, [defaultValue, fieldName, registerField]);
 
-  /// BUG AQUI P CORRIGIR
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
     if (days.some((e: string) => e === value)) {
-      const newDays = days.splice(days.indexOf(value), 1);
-      console.log(newDays);
-      setDays(newDays);
+      const newDays = days;
+      newDays.splice(days.indexOf(value), 1);
+      setDays([...newDays]);
+    } else {
+      const newDays = days;
+      newDays.push(value);
+      setDays([...newDays]);
     }
   };
 
@@ -81,7 +73,7 @@ const DaysPicker: React.FC<DaysPickerProps> = ({
       {options.map((option, index) => (
         <label htmlFor={option.id} key={option.id}>
           <input
-            checked={days.some((element: string) => element === option.value)}
+            checked={days.includes(option.value)}
             onChange={e => handleChange(e)}
             ref={ref => {
               inputRefs.current[index] = ref as HTMLInputElement;
