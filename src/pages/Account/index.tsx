@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { format, parseISO } from 'date-fns';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import { useHistory } from 'react-router-dom';
@@ -28,7 +29,7 @@ import api from '../../services/api';
 interface userData {
   name: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
   formattedCreatedAt: string;
   userType: string;
   bumpSettings: {
@@ -51,6 +52,7 @@ const AccountContainer: React.FC = () => {
   const { user, clearCache } = useAuth();
   const { addToast } = useToast();
   const [data, setData] = useState<userData>();
+  const [username, setUsername] = useState<string>('');
   const formRef = useRef<FormHandles>(null);
   const history = useHistory();
 
@@ -81,7 +83,34 @@ const AccountContainer: React.FC = () => {
     return () => {
       ignore = true;
     };
-  }, [user.email, addToast, clearCache, history]);
+  }, [user.email, addToast, clearCache, history, data]);
+
+  const handleNameChange = useCallback(async () => {
+    try {
+      const userEmail = user.email;
+      const response = await api.put('/account/name', {
+        userEmail,
+        username,
+      });
+      setData(response.data);
+      addToast({
+        type: 'success',
+        title: 'Configurações Salvas.',
+      });
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Não foi possível salvar o novo nome.',
+      });
+      clearCache();
+      history.push('/');
+    }
+  }, [username, addToast, clearCache, history, user.email]);
+
+  const parseDate = useCallback((date: string) => {
+    const parsed = parseISO(date);
+    return format(parsed, 'dd/MM/yyyy');
+  }, []);
 
   const handleSubmit = useCallback(
     async (dataForm: FormData) => {
@@ -143,17 +172,11 @@ const AccountContainer: React.FC = () => {
                   <h4>Nome Completo:</h4>
                   <input
                     defaultValue={data?.name}
+                    onChange={e => setUsername(e.target.value)}
                     type="text"
                     name="name"
-                    placeholder=""
                   />
-                  <Button
-                    onClick={() => {
-                      console.log(data?.bumpSettings.bumpDays);
-                    }}
-                  >
-                    Atualizar Nome
-                  </Button>
+                  <Button onClick={handleNameChange}>Atualizar Nome</Button>
                 </form>
               </div>
               <div>
@@ -162,7 +185,11 @@ const AccountContainer: React.FC = () => {
               </div>
               <div>
                 <h4>Usuário desde:</h4>
-                <p>{data?.createdAt}</p>
+                <p>
+                  {data?.createdAt
+                    ? parseDate(data?.createdAt)
+                    : 'Carregando...'}
+                </p>
               </div>
             </AccountInformationUser>
             <AccountInformationType>
