@@ -1,22 +1,33 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useField } from '@unform/core';
 
 import { Container } from './styles';
 
 type TimezoneProps = {
   name: string;
+  defaultValue: string;
 };
 
-const TimezoneSelect: React.FC<TimezoneProps> = ({ name, ...rest }) => {
+const TimezoneSelect: React.FC<TimezoneProps> = ({
+  name,
+  defaultValue,
+  ...rest
+}) => {
   const inputRef = useRef(null);
-  const { fieldName, defaultValue, registerField } = useField(name);
+  const [value, setValue] = useState<string>();
+  const { fieldName, registerField } = useField(name);
   useEffect(() => {
     registerField({
       name: fieldName,
       ref: inputRef.current,
       path: 'value',
     });
-  }, [fieldName, registerField]);
+    setValue(defaultValue);
+  }, [fieldName, registerField, defaultValue]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setValue(event.currentTarget.value);
+  };
 
   return (
     <Container>
@@ -24,7 +35,8 @@ const TimezoneSelect: React.FC<TimezoneProps> = ({ name, ...rest }) => {
         name="DropDownTimezone"
         id="DropDownTimezone"
         ref={inputRef}
-        defaultValue={defaultValue}
+        value={value}
+        onChange={e => handleChange(e)}
         {...rest}
       >
         <option value="-12.0">(GMT -12:00) Eniwetok, Kwajalein</option>

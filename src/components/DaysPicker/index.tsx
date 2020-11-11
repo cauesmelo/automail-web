@@ -1,9 +1,10 @@
-import React, { InputHTMLAttributes, useEffect, useRef } from 'react';
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { useField } from '@unform/core';
 import { Container } from './styles';
 
 interface DaysPickerProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  defaultValue: string[];
 }
 
 interface CheckboxOption {
@@ -12,9 +13,14 @@ interface CheckboxOption {
   label: string;
 }
 
-const DaysPicker: React.FC<DaysPickerProps> = ({ name, ...rest }) => {
+const DaysPicker: React.FC<DaysPickerProps> = ({
+  name,
+  defaultValue,
+  ...rest
+}) => {
   const inputRefs = useRef<HTMLInputElement[]>([]);
-  const { fieldName, registerField, defaultValue = [] } = useField(name);
+  const { fieldName, registerField } = useField(name);
+  const [days, setDays] = useState<string[]>([]);
 
   const options: CheckboxOption[] = [
     { id: 'monday', value: 'monday', label: 'SEG' },
@@ -46,13 +52,29 @@ const DaysPicker: React.FC<DaysPickerProps> = ({ name, ...rest }) => {
         });
       },
     });
+    setDays(defaultValue);
   }, [defaultValue, fieldName, registerField]);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.currentTarget;
+    if (days.some((e: string) => e === value)) {
+      const newDays = days;
+      newDays.splice(days.indexOf(value), 1);
+      setDays([...newDays]);
+    } else {
+      const newDays = days;
+      newDays.push(value);
+      setDays([...newDays]);
+    }
+  };
+
   return (
     <Container>
       {options.map((option, index) => (
         <label htmlFor={option.id} key={option.id}>
           <input
-            defaultChecked={defaultValue.find((dv: string) => dv === option.id)}
+            checked={days.includes(option.value)}
+            onChange={e => handleChange(e)}
             ref={ref => {
               inputRefs.current[index] = ref as HTMLInputElement;
             }}

@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { format, parseISO } from 'date-fns';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { useHistory } from 'react-router-dom';
 import {
   AccountInformationTitle,
   AccountInformation,
@@ -16,6 +18,7 @@ import {
   BumpSettingsRow,
 } from './styles';
 import { useAuth } from '../../hooks/auth';
+import { useToast } from '../../hooks/toast';
 import Button from '../../components/Button';
 import DaysPicker from '../../components/DaysPicker';
 import HourPicker from '../../components/HourPicker';
@@ -26,7 +29,7 @@ import api from '../../services/api';
 interface userData {
   name: string;
   email: string;
-  createdAt: Date;
+  createdAt: string;
   formattedCreatedAt: string;
   userType: string;
   bumpSettings: {
@@ -38,35 +41,119 @@ interface userData {
   };
 }
 
-interface formData {
-  value: string;
+interface FormData {
+  timezone: string;
+  days: string[];
+  startHour: string;
+  endHour: string;
 }
 
 const AccountContainer: React.FC = () => {
-  const { user } = useAuth();
+  const { user, clearCache } = useAuth();
+  const { addToast } = useToast();
   const [data, setData] = useState<userData>();
+  const [username, setUsername] = useState<string>('');
   const formRef = useRef<FormHandles>(null);
-
-  const handleSubmit = useCallback((dataTimezone: formData) => {
-    console.log(dataTimezone);
-  }, []);
+  const history = useHistory();
 
   useEffect(() => {
-    async function loadData() {
-      const response = await api.get(`/account/`, {
-        params: {
-          userEmail: user.email,
-        },
-      });
-      console.log('buscando dados');
-      setData(response.data);
-    }
-    loadData();
-  }, [user.email]);
+    let ignore = false;
+    const getData = async () => {
+      try {
+        const response = await api.get(`/account/`, {
+          params: {
+            userEmail: user.email,
+          },
+        });
 
-  function showData() {
-    console.log(data?.bumpSettings.timezone);
-  }
+        // Hack to prevent memory leak
+        if (!ignore) setData(response.data);
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Não foi possível carregar as configurações.',
+          description:
+            'Ocorreu um erro ao carregar configurações. Tente novamente.',
+        });
+        clearCache();
+        history.push('/');
+      }
+    };
+    getData();
+    return () => {
+      ignore = true;
+    };
+  }, [user.email, addToast, clearCache, history, data]);
+
+  const handleNameChange = useCallback(async () => {
+    try {
+      const userEmail = user.email;
+      const response = await api.put('/account/name', {
+        userEmail,
+        username,
+      });
+      setData(response.data);
+      addToast({
+        type: 'success',
+        title: 'Configurações Salvas.',
+      });
+    } catch (err) {
+      addToast({
+        type: 'error',
+        title: 'Não foi possível salvar o novo nome.',
+      });
+      clearCache();
+      history.push('/');
+    }
+  }, [username, addToast, clearCache, history, user.email]);
+
+  const parseDate = useCallback((date: string) => {
+    const parsed = parseISO(date);
+    return format(parsed, 'dd/MM/yyyy');
+  }, []);
+
+  const handleSubmit = useCallback(
+    async (dataForm: FormData) => {
+      if (dataForm.startHour === dataForm.endHour) {
+        addToast({
+          type: 'error',
+          title: 'Não foi possível salvar as configurações.',
+          description:
+            'O horário de envio não pode começar e terminar no mesmo horário.',
+        });
+      } else if (Number(dataForm.startHour) > Number(dataForm.endHour)) {
+        addToast({
+          type: 'error',
+          title: 'Não foi possível salvar as configurações.',
+          description:
+            'O horário de início do envio não pode ser maior que o horário final de envio',
+        });
+      } else {
+        try {
+          const userEmail = user.email;
+          const response = await api.put('/account/', {
+            userEmail,
+            dataForm,
+          });
+          setData(response.data);
+          addToast({
+            type: 'success',
+            title: 'Configurações Salvas.',
+          });
+        } catch (err) {
+          addToast({
+            type: 'error',
+            title: 'Não foi possível salvar as configurações.',
+            description:
+              'Ocorreu um erro ao salvar configurações. Tente novamente.',
+          });
+          clearCache();
+          history.push('/');
+        }
+      }
+    },
+    [addToast, clearCache, history, user.email],
+  );
 
   return (
     <Container>
@@ -85,11 +172,11 @@ const AccountContainer: React.FC = () => {
                   <h4>Nome Completo:</h4>
                   <input
                     defaultValue={data?.name}
+                    onChange={e => setUsername(e.target.value)}
                     type="text"
                     name="name"
-                    placeholder=""
                   />
-                  <Button>Atualizar Nome</Button>
+                  <Button onClick={handleNameChange}>Atualizar Nome</Button>
                 </form>
               </div>
               <div>
@@ -98,7 +185,11 @@ const AccountContainer: React.FC = () => {
               </div>
               <div>
                 <h4>Usuário desde:</h4>
-                <p>{data?.createdAt}</p>
+                <p>
+                  {data?.createdAt
+                    ? parseDate(data?.createdAt)
+                    : 'Carregando...'}
+                </p>
               </div>
             </AccountInformationUser>
             <AccountInformationType>
@@ -120,12 +211,18 @@ const AccountContainer: React.FC = () => {
             <BumpSettingsContent>
               <BumpSettingsRow>
                 <h4>Hora local:</h4>
-                <TimezoneSelect name="timezone" />
+                <TimezoneSelect
+                  defaultValue={data?.bumpSettings.timezone || ''}
+                  name="timezone"
+                />
               </BumpSettingsRow>
               <BumpSettingsRow>
                 <h4>Dias de envio:</h4>
                 <div className="whitebg">
-                  <DaysPicker name="days" />
+                  <DaysPicker
+                    defaultValue={data?.bumpSettings.bumpDays || []}
+                    name="days"
+                  />
                 </div>
               </BumpSettingsRow>
               <BumpSettingsRow>
@@ -133,9 +230,15 @@ const AccountContainer: React.FC = () => {
                 <div className="whitebg">
                   <div className="hourPickerContainer">
                     <p>entre</p>
-                    <HourPicker name="startHour" />
+                    <HourPicker
+                      defaultValue={data?.bumpSettings.bumpTimeStart || ''}
+                      name="startHour"
+                    />
                     <p>e</p>
-                    <HourPicker name="endHour" />
+                    <HourPicker
+                      defaultValue={data?.bumpSettings.bumpTimeEnd || ''}
+                      name="endHour"
+                    />
                   </div>
                 </div>
               </BumpSettingsRow>
@@ -148,9 +251,7 @@ const AccountContainer: React.FC = () => {
                   />
                 </div>
               </BumpSettingsRow>
-              <Button type="submit" onClick={showData}>
-                Salvar Mudanças
-              </Button>
+              <Button type="submit">Salvar Mudanças</Button>
             </BumpSettingsContent>
           </Form>
         </BumpSettings>

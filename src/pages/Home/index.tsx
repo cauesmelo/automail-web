@@ -10,7 +10,7 @@ import {
   FixedContent,
   Card,
   CardList,
-  Footer
+  Footer,
 } from './styles';
 
 import facebook from '../../assets/icons/facebook.svg';
@@ -37,8 +37,6 @@ const Home: React.FC = () => {
   }
 
   return (
-
-
     <Container>
       <Header>
         <GoogleLoginContainer>
@@ -49,7 +47,7 @@ const Home: React.FC = () => {
             onFailure={onFailure}
             cookiePolicy="single_host_origin"
             style={{ marginTop: '100px' }}
-            isSignedIn
+            isSignedIn={false}
             scope="https://mail.google.com/"
           />
         </GoogleLoginContainer>
@@ -60,14 +58,8 @@ const Home: React.FC = () => {
         </div>
       </Parallax>
       <Content>
-
-
-
         <FixedContent>
-
-          <h1>
-            Ofertas Premium
-          </h1>
+          <h1>Ofertas Premium</h1>
 
           <CardList>
             <Card>
@@ -76,10 +68,18 @@ const Home: React.FC = () => {
               <p> - basic feature</p>
               <p> - basic feature</p>
               <p> - basic feature</p>
-              <span><p> - intermediary feature</p></span>
-              <span><p> - intermediary feature</p></span>
-              <span><p> - Advanced feature</p></span>
-              <span><p> - Advanced feature</p></span>
+              <span>
+                <p> - intermediary feature</p>
+              </span>
+              <span>
+                <p> - intermediary feature</p>
+              </span>
+              <span>
+                <p> - Advanced feature</p>
+              </span>
+              <span>
+                <p> - Advanced feature</p>
+              </span>
               <p>R$ 10,00 mensais</p>
               <Button>Assinar</Button>
             </Card>
@@ -91,8 +91,12 @@ const Home: React.FC = () => {
               <p> - basic feature</p>
               <p> - intermediary feature</p>
               <p> - intermediary feature</p>
-              <span><p> - Advanced feature</p></span>
-              <span><p> - Advanced feature</p></span>
+              <span>
+                <p> - Advanced feature</p>
+              </span>
+              <span>
+                <p> - Advanced feature</p>
+              </span>
               <p>R$ 13,00 mensais</p>
               <Button>Assinar</Button>
             </Card>
@@ -112,12 +116,11 @@ const Home: React.FC = () => {
           </CardList>
 
           <Footer>
-          <h2>Se conecte conosco!</h2>
-          <img src={facebook} alt=""/>
-          <img src={linkedin} alt=""/>
-          <img src={pinterest} alt=""/>
-          <img src={twitter} alt=""/>
-
+            <h2>Se conecte conosco!</h2>
+            <img src={facebook} alt="" />
+            <img src={linkedin} alt="" />
+            <img src={pinterest} alt="" />
+            <img src={twitter} alt="" />
           </Footer>
         </FixedContent>
       </Content>
