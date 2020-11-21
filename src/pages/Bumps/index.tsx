@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BsFillQuestionCircleFill } from 'react-icons/bs';
+import { Editor } from 'react-draft-wysiwyg';
+import { ContentState, EditorState } from 'draft-js';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {
   FaSignOutAlt,
   FaEnvelope,
@@ -47,6 +50,13 @@ const Bumps: React.FC = () => {
   const history = useHistory();
   const [followUpList, setFollowUpList] = useState<FollowUpSequenceData[]>();
   const [followUp, setFollowUp] = useState<FollowUpSequenceData>();
+  const [editFollowUp, setEditFollowUp] = useState<boolean>(false);
+  const [followUpTitle, setFollowUpTitle] = useState<string>('');
+  const [editEmailModel, setEditEmailModel] = useState<string>('');
+  const [daysAfter, setDaysAfter] = useState<number>(0);
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty(),
+  );
 
   const orderEmailModel = useCallback(
     (followUpListToOrder: FollowUpSequenceData) => {
@@ -146,6 +156,7 @@ const Bumps: React.FC = () => {
         },
       });
       setFollowUp(orderEmailModel(response.data));
+      setEditFollowUp(false);
     },
     [user.id, orderEmailModel],
   );
@@ -162,8 +173,64 @@ const Bumps: React.FC = () => {
     setFollowUp(orderEmailModel(response.data));
   };
 
-  const edit = () => {
-    console.log('xD');
+  const handleEditFollowUp = () => {
+    setEditFollowUp(prevState => !prevState);
+  };
+
+  const handleUpdateFollowUp = async (id: string | undefined) => {
+    await api.put(`/followup/${id}`, {
+      title: followUpTitle,
+    });
+
+    const response = await api.get(`/followup/${followUp?.id}`, {
+      params: {
+        userId: user.id,
+      },
+    });
+    setFollowUp(orderEmailModel(response.data));
+
+    if (followUp) {
+      const newFollowUp = followUp;
+      newFollowUp.title = followUpTitle;
+      setFollowUp(newFollowUp);
+    }
+
+    handleEditFollowUp();
+  };
+
+  const handleEditEmailModel = (id: string) => {
+    setEditEmailModel(id);
+    const followUpSelected = followUp?.emailModel.find(item => item.id === id);
+
+    if (followUpSelected) {
+      setDaysAfter(followUpSelected?.daysAfter);
+      setEditorState(
+        EditorState.createWithContent(
+          ContentState.createFromText(followUpSelected.content),
+        ),
+      );
+    }
+  };
+
+  const handleUpdateEmailModel = async () => {
+    const content = editorState.getCurrentContent().getPlainText('\u0001');
+    await api.put(`/emailmodel/${editEmailModel}`, {
+      content,
+      daysAfter,
+    });
+
+    setEditEmailModel('');
+
+    const response = await api.get(`/followup/${followUp?.id}`, {
+      params: {
+        userId: user.id,
+      },
+    });
+    setFollowUp(orderEmailModel(response.data));
+  };
+
+  const handleDaysAfterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setDaysAfter(Number(e.currentTarget.value));
   };
 
   return (
@@ -200,9 +267,42 @@ const Bumps: React.FC = () => {
           </Button>
         </BumpMenu>
         <BumpHeader>
-          <h3>{followUp ? followUp?.title : 'Padrão'}</h3>
-          {followUp?.title === 'Padrão' ? '' : <span>editar nome</span>}
-          <span>enviar teste</span>
+          {editFollowUp ? (
+            <>
+              <input
+                type="text"
+                defaultValue={followUp?.title}
+                onChange={e => setFollowUpTitle(e.target.value)}
+              />
+              <Button
+                className="editButton confirmButton"
+                onClick={() => handleUpdateFollowUp(followUp?.id)}
+              >
+                Confirmar alteração
+              </Button>
+              <Button
+                className="editButton cancelButton"
+                onClick={handleEditFollowUp}
+              >
+                Cancelar
+              </Button>
+            </>
+          ) : (
+            <>
+              <h3>{followUp ? followUp.title : 'Padrão'}</h3>
+              {followUp?.title === 'Padrão' ? (
+                ''
+              ) : (
+                <Button className="editButton" onClick={handleEditFollowUp}>
+                  editar nome
+                </Button>
+              )}
+              <Button className="editButton" onClick={handleEditFollowUp}>
+                enviar teste
+              </Button>
+            </>
+          )}
+
           <p>
             {/* TODO: CHANGE THIS WHEN SERVICE IS READY */}
             Para utilizar essa sequência de reenvio, coloque este endereço de
@@ -243,40 +343,99 @@ const Bumps: React.FC = () => {
                         Reenvio
                         {` ${emailModel.order}`}
                       </h3>
-                      <Button className="editButton">
-                        <FaEdit />
-                        Editar
-                      </Button>
-                      {followUp.emailModel.length !== 1 && (
+                      {emailModel.id !== editEmailModel && (
                         <Button
-                          className="deleteButton"
-                          onClick={() => handleDeleteEmailModel(emailModel.id)}
+                          onClick={() => handleEditEmailModel(emailModel.id)}
+                          className="editButton"
                         >
-                          <FaTrash />
-                          Excluir
+                          <FaEdit />
+                          Editar
                         </Button>
                       )}
+
+                      {followUp.emailModel.length !== 1 &&
+                        emailModel.id !== editEmailModel && (
+                          <Button
+                            className="deleteButton"
+                            onClick={
+                              () => handleDeleteEmailModel(emailModel.id)
+                              // eslint-disable-next-line
+                            }
+                          >
+                            <FaTrash />
+                            Excluir
+                          </Button>
+                        )}
                     </BumpContentItemTitle>
                     <BumpContentItemSubTitle>
+                      {/* eslint-disable */}
                       <p>
                         <FaSignOutAlt />
                         Se você não receber uma resposta, este será enviado
-                        {/* eslint-disable-next-line */}
-                        <b>{' ' + emailModel.daysAfter} dias </b>
-                        {/* eslint-disable-next-line */}
-                        depois de enviado o <b> email original</b>.
+                        <b>
+                          {emailModel.id === editEmailModel ? (
+                            <select
+                              value={daysAfter}
+                              onChange={(e) =>
+                                handleDaysAfterChange(e)}
+                            >
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="5">5</option>
+                              <option value="8">8</option>
+                              <option value="10">10</option>
+                              <option value="12">12</option>
+                              <option value="15">15</option>
+                              <option value="20">20</option>
+                              <option value="25">25</option>
+                              <option value="30">30</option>
+                              <option value="35">35</option>
+                              <option value="40">40</option>
+                              <option value="45">45</option>
+                              <option value="50">50</option>
+                              <option value="60">60</option>
+                              <option value="70">70</option>
+                              <option value="80">80</option>
+                              <option value="90">90</option>
+                            </select>
+                          ) : (
+                            ` ${emailModel.daysAfter} `
+                          )}
+                          dias </b> depois de enviado o <b> email original</b>.
                       </p>
                     </BumpContentItemSubTitle>
                     <BumpContentItemContent>
-                      <span>Para: Destinatário</span>
-                      <span>De: Você</span>
-                      <p>{emailModel.content}</p>
+                      {/* eslint-enable */}
+                      <span className="smallText">Para: Destinatário</span>
+                      <span className="smallText">De: Você</span>
+                      {emailModel.id === editEmailModel ? (
+                        <>
+                          <div className="editorContainer">
+                            <Editor
+                              editorState={editorState}
+                              onEditorStateChange={setEditorState}
+                              toolbarClassName="toolbarClassName"
+                              wrapperClassName="wrapperClassName"
+                              editorClassName="editorClassName"
+                            />
+                          </div>
+                          <div className="buttonsContainer">
+                            <Button onClick={handleUpdateEmailModel}>
+                              Salvar
+                            </Button>
+                            <Button className="cancelButton">Cancelar</Button>
+                          </div>
+                        </>
+                      ) : (
+                        <p>{emailModel.content}</p>
+                      )}
                       <div className="Balls">
                         <FaCircle />
                         <FaCircle />
                         <FaCircle />
                       </div>
-                      <span className="spanBalls">
+                      <span className="smallText spanBalls">
                         <p>Seu e-mail original estará aqui.</p>
                       </span>
                     </BumpContentItemContent>
