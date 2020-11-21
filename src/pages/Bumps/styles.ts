@@ -118,6 +118,8 @@ export const BumpHeader = styled.div`
     font-size: 14px;
     color: rgb(153, 153, 153);
     text-decoration: underline;
+    margin-right: 30px;
+    cursor: pointer;
   }
   h3 {
     font-size: 28px;
@@ -129,6 +131,26 @@ export const BumpHeader = styled.div`
     font-size: 16px;
     font-weight: 400;
     color: rgb(119, 124, 122);
+  }
+  .deleteButton {
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: rgb(213, 213, 213);
+    border-radius: 5px;
+    color: rgb(52, 61, 57);
+    font-weight: 700;
+    justify-self: end;
+    font-size: 16px;
+
+    &:hover {
+      color: white;
+      background-color: #dd3636;
+    }
+
+    svg {
+      margin-right: 5px;
+    }
   }
 `;
 
