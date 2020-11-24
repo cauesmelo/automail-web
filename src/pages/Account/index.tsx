@@ -86,24 +86,32 @@ const AccountContainer: React.FC = () => {
   }, [user.email, addToast, clearCache, history, data]);
 
   const handleNameChange = useCallback(async () => {
-    try {
-      const userEmail = user.email;
-      const response = await api.put('/account/name', {
-        userEmail,
-        username,
-      });
-      setData(response.data);
-      addToast({
-        type: 'success',
-        title: 'Configurações Salvas.',
-      });
-    } catch (err) {
+    if (username === '') {
       addToast({
         type: 'error',
         title: 'Não foi possível salvar o novo nome.',
+        description: 'O nome não pode estar vazio.',
       });
-      clearCache();
-      history.push('/');
+    } else {
+      try {
+        const userEmail = user.email;
+        const response = await api.put('/account/name', {
+          userEmail,
+          username,
+        });
+        setData(response.data);
+        addToast({
+          type: 'success',
+          title: 'Nome alterado com sucesso.',
+        });
+      } catch (err) {
+        addToast({
+          type: 'error',
+          title: 'Não foi possível salvar o novo nome.',
+        });
+        clearCache();
+        history.push('/');
+      }
     }
   }, [username, addToast, clearCache, history, user.email]);
 

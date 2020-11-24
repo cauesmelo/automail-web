@@ -33,6 +33,12 @@ const DaysPicker: React.FC<DaysPickerProps> = ({
   ];
 
   useEffect(() => {
+    if (days.length === 0) {
+      setDays(defaultValue);
+    }
+  }, [days, defaultValue]);
+
+  useEffect(() => {
     registerField({
       name: fieldName,
       ref: inputRefs.current,
@@ -52,8 +58,7 @@ const DaysPicker: React.FC<DaysPickerProps> = ({
         });
       },
     });
-    setDays(defaultValue);
-  }, [defaultValue, fieldName, registerField]);
+  }, [fieldName, registerField]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;

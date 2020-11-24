@@ -118,6 +118,8 @@ export const BumpHeader = styled.div`
     font-size: 14px;
     color: rgb(153, 153, 153);
     text-decoration: underline;
+    margin-right: 30px;
+    cursor: pointer;
   }
   h3 {
     font-size: 28px;
@@ -129,6 +131,65 @@ export const BumpHeader = styled.div`
     font-size: 16px;
     font-weight: 400;
     color: rgb(119, 124, 122);
+  }
+
+  .editButton {
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: rgb(213, 213, 213);
+    border-radius: 5px;
+    color: rgb(52, 61, 57);
+    font-weight: 700;
+    justify-self: end;
+    font-size: 16px;
+
+    &:hover {
+      color: white;
+      background-color: #343d39;
+    }
+  }
+
+  .confirmButton {
+    margin-right: 10px;
+    &:hover {
+      color: white;
+      background-color: #4bb543;
+    }
+  }
+
+  .cancelButton {
+    &:hover {
+      color: white;
+      background-color: #dd3636;
+    }
+  }
+
+  .deleteButton {
+    margin-top: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: rgb(213, 213, 213);
+    border-radius: 5px;
+    color: rgb(52, 61, 57);
+    font-weight: 700;
+    justify-self: end;
+    font-size: 16px;
+
+    &:hover {
+      color: white;
+      background-color: #dd3636;
+    }
+
+    svg {
+      margin-right: 5px;
+    }
+  }
+
+  input {
+    height: 50px;
+    font-size: 28px;
+    margin-right: 20px;
   }
 `;
 
@@ -292,6 +353,9 @@ export const BumpContentItemSubTitle = styled.div`
       margin-right: 7px;
     }
   }
+  select {
+    margin: 0px 10px;
+  }
 `;
 export const BumpContentItemContent = styled.div`
   padding: 30px;
@@ -304,7 +368,7 @@ export const BumpContentItemContent = styled.div`
     padding: 50px;
   }
 
-  span {
+  .smallText {
     color: rgb(164, 164, 164);
     font-size: 14px;
     font-weight: 500;
@@ -323,6 +387,47 @@ export const BumpContentItemContent = styled.div`
       fill: rgb(146, 146, 146);
       width: 6px;
       padding: 1px;
+    }
+  }
+
+  .editorContainer {
+    margin: 25px 0px 15px 0px;
+    padding: 20px;
+    border: 1px solid #d1d1d1;
+    border-radius: 3px;
+    background-color: #f8f8f8;
+    .rdw-editor-toolbar {
+      background-color: #f8f8f8;
+    }
+    .rdw-editor-main {
+      padding: 10px;
+      min-height: 270px;
+      background-color: white;
+    }
+  }
+
+  .buttonsContainer {
+    text-align: right;
+    button {
+      margin-left: 5px;
+      margin-right: 5px;
+      background-color: rgb(213, 213, 213);
+      border-radius: 5px;
+      color: rgb(52, 61, 57);
+      font-weight: 700;
+      justify-self: end;
+      font-size: 16px;
+
+      &:hover {
+        color: white;
+        background-color: #4bb543;
+      }
+    }
+    .cancelButton {
+      &:hover {
+        color: white;
+        background-color: #dd3636;
+      }
     }
   }
 `;
