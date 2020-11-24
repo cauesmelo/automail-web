@@ -124,7 +124,7 @@ const Bumps: React.FC = () => {
     await api.post(`/emailmodel/`, {
       userId: user.id,
       followUpSequenceId,
-      content: 'Teste',
+      content: 'Olá, conseguiu verificar este e-mail?',
       daysAfter: 30,
     });
     const response = await api.get(`/followup/${followUp?.id}`, {
