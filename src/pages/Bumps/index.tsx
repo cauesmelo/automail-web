@@ -214,19 +214,33 @@ const Bumps: React.FC = () => {
 
   const handleUpdateEmailModel = async () => {
     const content = editorState.getCurrentContent().getPlainText('\u0001');
-    await api.put(`/emailmodel/${editEmailModel}`, {
-      content,
-      daysAfter,
-    });
 
-    setEditEmailModel('');
+    const repeatedDay = followUp?.emailModel.find(
+      item => item.daysAfter === daysAfter,
+    );
 
-    const response = await api.get(`/followup/${followUp?.id}`, {
-      params: {
-        userId: user.id,
-      },
-    });
-    setFollowUp(orderEmailModel(response.data));
+    if (repeatedDay) {
+      addToast({
+        type: 'error',
+        title: 'Não é possível salvar configuração de e-mail.',
+        description:
+          'Já existe um e-mail configurado para este dia, modifique o dia e tente novamente.',
+      });
+    } else {
+      await api.put(`/emailmodel/${editEmailModel}`, {
+        content,
+        daysAfter,
+      });
+
+      setEditEmailModel('');
+
+      const response = await api.get(`/followup/${followUp?.id}`, {
+        params: {
+          userId: user.id,
+        },
+      });
+      setFollowUp(orderEmailModel(response.data));
+    }
   };
 
   const handleDaysAfterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
